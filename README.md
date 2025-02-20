@@ -1,5 +1,6 @@
 # Nutrition Center Inventory Management
 
+**product vision goes here, somewhat concrete, talked about and agreed upon** 
 
 
 ## Getting started
