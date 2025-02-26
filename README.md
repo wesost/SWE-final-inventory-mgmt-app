@@ -1,13 +1,20 @@
 # Nutrition Center Inventory Management
 
-**product vision goes here, somewhat concrete, talked about and agreed upon** 
+**Product Vision:** 
+
+ ##### GOAL: To create a streamlined, efficient, and user-friendly system that allows the Whitworth Nutrition Center to track the movement of food and health items. This system will enable the Nutrition Center to optimize inventory management and provide quick, easy-to-use scanning. The goal is to enhance the Whitworth Nutrition Center's ability to support students facing food insecurity.
+
+ ##### TARGET AUDIENCE: Nutrition Center managers, students, and any staff that may be working to help in supporting students with food insecurity.
+
+ ##### LONG-TERM VISION: By the end of the project, the system will empower food banks to make informed decisions on stock levels, manage resources efficiently, and ensure that students have access to the food and basic needs they require in a timely, transparent manner.
 
 
-## Getting started
+## Authors
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Cade Conklin 
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+
+
 
 ## Add your files
 
@@ -49,15 +56,9 @@ Use the built-in continuous integration in GitLab.
 
 When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
 
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+The Whitworth Nutrition Center requires a more streamlined solution to manage and track the data flowing in and out of their records in order to better support students facing food insecurity. The proposed solution involves implementing scanning technologies and a web interface, allowing administrators and managers to easily monitor, update, and track inventory levels, while also identifying trends to ensure that food is fresh and meets student needs. This system will enable more efficient resource allocation and provide staff with an easier way to track the status of the pantry and its contents. A key component of the system will involve student-facing scanning technology, where students will scan out items as they take them, ensuring that inventory is always up to date. The primary objective of this project is to modernize the Nutrition Center's food pantry, enhancing its ability to serve those in need more effectively. We can edit this as we decide on what tools we will use and what have you.
 
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
