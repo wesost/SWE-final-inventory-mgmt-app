@@ -11,7 +11,7 @@
 
 ## Authors
 
-Cade Conklin 
+Cade Conklin - cconklin25@my.whitworth.edu
 
 
 
