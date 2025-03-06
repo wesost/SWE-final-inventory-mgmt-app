@@ -8,6 +8,8 @@
 
  ##### LONG-TERM VISION: By the end of the project, the system will empower food banks to make informed decisions on stock levels, manage resources efficiently, and ensure that students have access to the food and basic needs they require in a timely, transparent manner.
 
+ #### BACKLOG-LINK: https://trello.com/b/0qdL0b40/product-backlog
+
 
 ## Authors
 
