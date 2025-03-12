@@ -1,10 +1,8 @@
 # Documentation Overview
-Modified: 3/11/2025
-Authors:  Luke Wagner
 
 ## About
 
-The purpose of this document is to provide a brief but clear overview of the entire project documentation.
+The purpose of this document is to provide a brief but clear overview of the entire project documentation. This documentation should clearly point to other existing documentation. This will allow other members of the team to find what they need without having to search through all the files manually.
 
 ## Documentation Guidelines:
 
@@ -13,3 +11,9 @@ When creating a significant new piece of documentation, consider adding a refere
 ## References:
 
 CONTRIBUTION-GUIDELINES.md: Defines the policies and procedures for committing new changes to the repository.
+
+___
+
+File authors: Luke Wagner  
+Last Modified: 3/11/2025  
+Reviewers (add name and date):  
