@@ -35,5 +35,4 @@ Select another dev to review the merge request. Do not assign yourself. The foll
 ___
 
 File authors: Luke Wagner  
-Last Modified: 3/11/2025  
-Reviewers (add name and date):  
+Last Modified: 3/11/2025
