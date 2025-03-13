@@ -10,6 +10,7 @@
 
  #### BACKLOG-LINK: https://trello.com/b/0qdL0b40/product-backlog
 
+ #### RESEARCH-DOC: https://mywhitworth-my.sharepoint.com/:w:/g/personal/wostlund25_my_whitworth_edu/EcYJC1ztu0NNvFZM0_7I0OgBoj6emCbY2VEyoTOd0nGo_A?e=WeN8VI
 
 ## Authors
 
