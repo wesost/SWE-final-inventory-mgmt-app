@@ -12,8 +12,9 @@ When creating a significant new piece of documentation, consider adding a refere
 
 CONTRIBUTION-GUIDELINES.md: Defines the policies and procedures for committing new changes to the repository.
 
+Schema Documentation: [Link to doc](https://mywhitworth-my.sharepoint.com/:w:/g/personal/lwagner27_my_whitworth_edu/EVOlNl51vjREuah1M52ScOgBcOFmUnYhj-T1g11YtfPR6A?e=fXG5wE)
+
 ___
 
 File authors: Luke Wagner  
-Last Modified: 3/11/2025  
-Reviewers (add name and date):  
+Last Modified: 3/13/2025
