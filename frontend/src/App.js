@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import LandingPage from './components/LandingPage';
+import AdminLogin from './components/AdminPage';
+
+// Import CSS files
+import './styles/App.css';
+import './styles/Header.css';
+import './styles/Footer.css';
+import './styles/LandingPage.css';
+import './styles/AdminPage.css';
 
 function App() {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/items')
-      .then((response) => response.json())
-      .then((data) => setItems(data));
-  }, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Items</h1>
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>{item.name}</li>
-          ))}
-        </ul>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<AdminLogin />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 

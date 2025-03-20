@@ -1,0 +1,10 @@
+* {
+  font-family: 'Gotham Narrow', 'Baskerville MT', Helvetica, Arial, sans-serif;
+}
+
+html{
+  background-color: #C22033; 
+  height: 100%; 
+  display: flex; 
+  flex-direction: column; 
+}
