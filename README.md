@@ -9,13 +9,17 @@
  ##### LONG-TERM VISION: By the end of the project, the system will empower food banks to make informed decisions on stock levels, manage resources efficiently, and ensure that students have access to the food and basic needs they require in a timely, transparent manner.
 
  ##### BACKLOG-LINK: https://trello.com/b/0qdL0b40/product-backlog
+ 
+ ##### DOCUMENTATION-HEAD: [START-HERE.md](/documentation/START-HERE.md) 
+
+ ##### RESEARCH-DOC: https://mywhitworth-my.sharepoint.com/:w:/g/personal/wostlund25_my_whitworth_edu/EcYJC1ztu0NNvFZM0_7I0OgBoj6emCbY2VEyoTOd0nGo_A?e=WeN8VI
 
 ---
 ## Authors
-- Salim -
-- Wes   -
-- Bruno - 
-- Luke  - 
+- Salim - sdhahri25@my.whitworth.edu
+- Wes   - wostlund25@my.whitworth.edu
+- Bruno - bdonoso-tapia25@my.whitworth.edu
+- Luke  - lwagner27@my.whitworth.edu
 - Cade  - cconklin25@my.whitworth.edu
 
 ---
