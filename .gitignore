@@ -1,7 +1,11 @@
+# frontend and backend
 backend/node_modules
 frontend/node_modules
 node_modules
+backend/build
+frontend/build
 
+# Boilerplate react
 # Dependencies
 /node_modules
 /.pnp
