@@ -112,15 +112,3 @@ button {
 button:hover {
     background-color: #018b99;
 }
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .container {
-        max-width: 90%;
-        padding: 30px;
-    }
-    
-    .logo img {
-        width: 80px;
-    }
-}
