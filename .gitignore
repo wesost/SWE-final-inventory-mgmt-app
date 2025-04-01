@@ -5,6 +5,9 @@ node_modules
 backend/build
 frontend/build
 
+# log files
+build-scripts/script-err.log
+
 # Boilerplate react
 # Dependencies
 /node_modules
