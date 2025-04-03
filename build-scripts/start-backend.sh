@@ -5,4 +5,4 @@
 
 # Run from the root project directory
 cd backend
-node index.js
+node server.js
