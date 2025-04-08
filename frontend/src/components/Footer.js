@@ -3,7 +3,7 @@ import '../styles/Footer.css';
 
 const Footer = () => {
     return (
-    <footer class="footer" role="contentinfo">
+    <footer class="footer">
         <div className="footer--wrapper">
             <div className="footer--sitemap">
                 <nav className="footer--nav"></nav>

@@ -5,15 +5,11 @@
     top: 0;
     display: flex;
     justify-content: space-between;
+    padding: 20px;
     align-items: center;
-    padding: 30px;
     background-color: #f4f4f4;
 }
-  
-.header .logo img {
-    max-height: 50px;
-}
-  
+    
 .nav ul {
     list-style-type: none;
     display: flex;
