@@ -1,7 +1,11 @@
 .admin-dashboard {
     display: flex;
-    height: 100vh;
-  }
+    position: absolute;
+    top: 7%;
+    left: 0;
+    right: 0;
+    bottom: 1%;
+}
 
 .sidebar {
     width: 10%; 
