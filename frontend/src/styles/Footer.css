@@ -1,60 +1,11 @@
+/* Set the footer to always stick to the bottom of the screen */
 .footer {
-    position:absolute;
-    left:0;
-    bottom:0;
-    right:0;
-}
-    
-.sub-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: #222;
-    color: #555;
-    padding: 20px;
-}
-  
-.sub-footer--row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-  
-.sub-footer--contact-info {
-    display: flex;
-    flex-wrap: wrap;
-    width: 70%;
-}
-  
-.sub-footer--item {
-    margin-right: 20px;
-}
-  
-.sub-footer--item a {
-    color: #555;
-    text-decoration: none;
-}
-  
-.sub-footer--item-social {
-    display: flex;
-    justify-content: flex-end;
-}
-  
-.footer--social-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 10px;
-}
-  
-.footer--social-icon {
-    color: #555;
-    font-size: 20px;
-    text-decoration: none;
-}  
-
-.footer--social-icon.icon-instagram {
-    margin-right: 10px;
-}
-  
-.sub-footer--item .tx-grey {
-    margin-left: 10px;
+    height: 5%; /* Adjust the height to whatever you prefer */
+    width: 100%; /* Ensure the footer spans the entire width of the screen */
+    z-index: 1; /* Make sure the footer stays on top */
 }

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import EditItemForm from "../components/EditItemForm";
 import '../styles/AdminDashboard.css';
 
 const AdminDashboard = () => {
+  const [showEditForm, setShowEditForm] = useState(false);
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({
     itemName: "",
@@ -77,20 +79,35 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-              <tr key={item.item_id}>
-                <td>{item.name}</td>
-                <td>{item.category}</td>
-                <td>{item.quantity}</td>
-                <td>{item.net_weight}</td>
-                <td>{item.expiration_date || "N/A"}</td>
-                <td>
-                  <button onClick={() => handleDelete(item.item_id)}>Remove</button>
+            {/* Check if the 'items' array has any data */}
+            {items.length > 0 ? (
+              items.map((item) => (
+                <tr key={item.item_id}>
+                  <td>{item.name}</td>
+                  <td>{item.category}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.net_weight}</td> 
+                  <td>{item.expiration_date || "N/A"}</td> 
+                  <td className="actionTab">
+                    <button className="editItem" onClick={() => setShowEditForm(true)}>Edit</button>
+                    <button onClick={() => handleDelete(item.item_id)}>Remove</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              //If no items are available display message but provide action buttons
+              <tr>
+                <td colSpan="5">No items available</td> 
+                <td className="actionTab">
+                  <button className="actionButton" id="editItem" onClick={() => setShowEditForm(true)}>Edit</button>
+                  <button className="actionButton" id="removeItem" onClick={() => alert("No item to delete!")}>Remove</button>
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
+
+        {showEditForm && <EditItemForm onClose={() => setShowEditForm(false)} />}
 
         {/* Add Item Form */}
         <section className="add-item">

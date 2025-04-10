@@ -1,13 +1,15 @@
 .header {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;
     display: flex;
     justify-content: space-between;
+    height: 10%;
     padding: 20px;
     align-items: center;
     background-color: #f4f4f4;
+    z-index: 1;
 }
     
 .nav ul {
