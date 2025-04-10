@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AdminPage.css';
+import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -19,7 +20,7 @@ const AdminLogin = () => {
       <div className="container">
         <div className="logo">
           <img 
-            src={process.env.PUBLIC_URL + '/WhitworthLogo.png'}  // This needs fixing still so that it will display on the front page 
+            src={whitworthLogo}  // This needs fixing still so that it will display on the front page 
             alt="Whitworth University Logo" 
           />
         </div>

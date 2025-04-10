@@ -21,8 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<AdminLogin />} />
-         <Route path="/adminDashboard" element={<AdminDashboard />} /> {/* Add this route */}
-      </Routes>
+         <Route path="/adminDashboard" element={<AdminDashboard />} /> 
+        </Routes>
       <Footer />
     </Router>
   );
