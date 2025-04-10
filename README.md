@@ -139,8 +139,6 @@ After the merge is complete, you can sync your local repository to reflect the c
      git checkout main
      git pull origin main
 
-##### NOTE: THIS IS A WORK IN PROGRESS, WE CAN UPDATE THIS AS WE GO.
-
 ---
 
 ## Testing Protocols
