@@ -5,8 +5,11 @@ import '../styles/AdminPage.css';
 import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const AdminLogin = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // For testing, set the values in the form to admin credentials.
+  // Provides easy access to the dashboard
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin123');
+
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
