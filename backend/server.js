@@ -1,7 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
+const util = require('util');
 
 const app = express();
 
@@ -19,7 +21,7 @@ app.use(session({
   cookie: {
     secure: false, // set to true if using HTTPS
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    maxAge: 1000 * 60 * 60 * 1 // 1 hour
   }
 }));
 
@@ -59,32 +61,31 @@ app.post('/api/auth/login', async (req, res) => {
         message: 'Username and password are required' 
       });
     }
-
-    // For now, always validate the user
-    // The actual login logic can be implemented after the rest of the components are connected up
-
-    // Store user info in session (excluding password)
-    req.session.user = {
-        username: 'test',
-        // Add other non-sensitive user info here
-    };
-
-    res.json({ success: true });
-    return; // for debug #REMOVE
     
-    // Get user from database
-    const [rows] = await db.query(
+    // Try get user from the database
+    // Need to use promise-based approach for running queries in async functions
+    const query = util.promisify(db.query).bind(db);
+    const results = await query(
       'SELECT username, password_hash FROM users WHERE username = ?', 
       [username]
     );
     
-    const user = rows[0];
-    
-    // Check if user exists and password is correct
-    if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-      return res.status(401).json({ 
+    // Check if a user was found
+    if (!results.length) {
+      return res.status(401).json({
         success: false, 
-        message: 'Invalid username or password' 
+        message: 'Invalid username or password'
+      });
+    }
+    
+    const user = results[0];
+    
+    // Verify the password using bcrypt (assuming bcrypt.compare returns a promise)
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false, 
+        message: 'Invalid username or password'
       });
     }
     
