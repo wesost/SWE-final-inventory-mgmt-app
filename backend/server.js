@@ -39,6 +39,11 @@ db.connect(err => {
     console.log('Connected to MySQL Database');
 });
 
+// For developer testing, create a fake user
+// This should be removed when actually deployed
+const { setupAuth } = require('./setupAuth');
+setupAuth(db);
+
 // API Routes
 // ----------------------------------------------------------------------------------
 
