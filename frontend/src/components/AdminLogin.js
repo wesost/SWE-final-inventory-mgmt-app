@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/AdminPage.css';
 import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/adminDashboard');
-    // handle login logic here
-    console.log('Login attempt with:', { username, password });
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post('/api/auth/login', { 
+        username, 
+        password 
+      }, {
+        withCredentials: true // Important for cookies
+      });
+      
+      if (response.data.success) {
+        navigate('/adminDashboard');
+      } else {
+        setError(response.data.message || 'Login failed');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Authentication failed. Please try again.');
+      console.error('Login error:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // handle login logic here
 
   return (
     <div className="admin-login-container">
@@ -27,6 +51,8 @@ const AdminLogin = () => {
         
         <h1>Admin Dashboard</h1>
         <div className="header-subtitle">Secure Administrator Access</div>
+
+        {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
