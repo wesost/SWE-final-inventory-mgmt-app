@@ -25,6 +25,59 @@ db.connect(err => {
 });
 
 // API Routes
+// ----------------------------------------------------------------------------------
+
+// Auth routes
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    // Input validation
+    if (!username || !password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Username and password are required' 
+      });
+    }
+
+    // For now, always validate the user
+    // The actual login logic can be implemented after the rest of the components are connected up
+    res.json({ success: true });
+    return; // for debug #REMOVE
+    
+    // Get user from database
+    const [rows] = await db.query(
+      'SELECT username, password_hash FROM users WHERE username = ?', 
+      [username]
+    );
+    
+    const user = rows[0];
+    
+    // Check if user exists and password is correct
+    if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Invalid username or password' 
+      });
+    }
+    
+    // Store user info in session (excluding password)
+    req.session.user = {
+      username: user.username,
+      // Add other non-sensitive user info here
+    };
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error. Please try again later.' 
+    });
+  }
+});
+
+// Other routes
 // Fetch all items from the inventory
 app.get('/api/items', (req, res) => {
     db.query('SELECT * FROM items', (err, results) => {
