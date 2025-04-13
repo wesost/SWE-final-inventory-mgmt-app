@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute'; // for authentication
 import LandingPage from './components/LandingPage';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
@@ -21,7 +22,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<AdminLogin />} />
-         <Route path="/adminDashboard" element={<AdminDashboard />} /> 
+        <Route element={<ProtectedRoute />}>
+          <Route path="/adminDashboard" element={<AdminDashboard />} />
+        </Route>
         </Routes>
       <Footer />
     </Router>

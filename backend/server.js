@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
 const mysql = require('mysql2');
 
 const app = express();
@@ -7,6 +8,20 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(require('cors')());
+
+// Need to use Express session middleware for storing session data
+// This includes storing whether the user has been authenticated
+// Provides access to protected routes like admin dashboard
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // set to true if using HTTPS
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
+}));
 
 // Connect to MySQL
 const db = mysql.createConnection({
@@ -42,6 +57,13 @@ app.post('/api/auth/login', async (req, res) => {
 
     // For now, always validate the user
     // The actual login logic can be implemented after the rest of the components are connected up
+
+    // Store user info in session (excluding password)
+    req.session.user = {
+        username: 'test',
+        // Add other non-sensitive user info here
+    };
+
     res.json({ success: true });
     return; // for debug #REMOVE
     
@@ -75,6 +97,14 @@ app.post('/api/auth/login', async (req, res) => {
       message: 'Server error. Please try again later.' 
     });
   }
+});
+
+app.get('/api/auth/verify', (req, res) => {
+  // Check if user is authenticated
+  if (req.session && req.session.user) {
+    return res.json({ authenticated: true });
+  }
+  res.status(401).json({ authenticated: false });
 });
 
 // Other routes

@@ -1,6 +1,12 @@
 # Rename this file to .env
+#
+# Notes:
+# SESSION_SECRET can be set to any string but it is used by Express to sign cookies sent to the browser
+#   Then when Express receives the cookies back from the browser, it can validate them
+#   For security, best to set to some long, random string
 
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=*Database password*
 DB_NAME=*Database name*
+SESSION_SECRET="2sqB9lVnQKKEFlSdafXzG4ai3"
