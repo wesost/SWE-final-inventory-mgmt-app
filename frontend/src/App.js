@@ -23,7 +23,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<AdminLogin />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/adminDashboard" element={<AdminDashboard />} />
+          <Route path="/admin/" element={<AdminDashboard />} />
         </Route>
         </Routes>
       <Footer />

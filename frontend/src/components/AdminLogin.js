@@ -28,7 +28,7 @@ const AdminLogin = () => {
       });
       
       if (response.data.success) {
-        navigate('/adminDashboard');
+        navigate('/admin/');
       } else {
         setError(response.data.message || 'Login failed');
       }
