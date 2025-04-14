@@ -1,12 +1,29 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
+const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
+const util = require('util');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(require('cors')());
+
+// Need to use Express session middleware for storing session data
+// This includes storing whether the user has been authenticated
+// Provides access to protected routes like admin dashboard
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // set to true if using HTTPS
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 1 // 1 hour
+  }
+}));
 
 // Connect to MySQL
 const db = mysql.createConnection({
@@ -24,7 +41,79 @@ db.connect(err => {
     console.log('Connected to MySQL Database');
 });
 
+// For developer testing, create a fake user
+// This should be removed when actually deployed
+const { setupAuth } = require('./setupAuth');
+setupAuth(db);
+
 // API Routes
+// ----------------------------------------------------------------------------------
+
+// Auth routes
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    // Input validation
+    if (!username || !password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Username and password are required' 
+      });
+    }
+    
+    // Try get user from the database
+    // Need to use promise-based approach for running queries in async functions
+    const query = util.promisify(db.query).bind(db);
+    const results = await query(
+      'SELECT username, password_hash FROM users WHERE username = ?', 
+      [username]
+    );
+    
+    // Check if a user was found
+    if (!results.length) {
+      return res.status(401).json({
+        success: false, 
+        message: 'Invalid username or password'
+      });
+    }
+    
+    const user = results[0];
+    
+    // Verify the password using bcrypt (assuming bcrypt.compare returns a promise)
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false, 
+        message: 'Invalid username or password'
+      });
+    }
+    
+    // Store user info in session (excluding password)
+    req.session.user = {
+      username: user.username,
+      // Add other non-sensitive user info here
+    };
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error. Please try again later.' 
+    });
+  }
+});
+
+app.get('/api/auth/verify', (req, res) => {
+  // Check if user is authenticated
+  if (req.session && req.session.user) {
+    return res.json({ authenticated: true });
+  }
+  res.status(401).json({ authenticated: false });
+});
+
+// Other routes
 // Fetch all items from the inventory
 app.get('/api/items', (req, res) => {
     db.query('SELECT * FROM items', (err, results) => {
