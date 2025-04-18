@@ -26,6 +26,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="text" 
+              class="formAttribute"
               name="name" 
               value={formData.name || ""} 
               onChange={handleChange} 
@@ -35,6 +36,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="text" 
+              class="formAttribute"
               name="category" 
               value={formData.category || ""} 
               onChange={handleChange} 
@@ -44,6 +46,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="number" 
+              class="formAttribute"
               name="quantity" 
               value={formData.quantity || ""} 
               onChange={handleChange} 
@@ -53,6 +56,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="number" 
+              class="formAttribute"
               step="0.1" 
               name="net_weight" 
               value={formData.net_weight || ""} 
@@ -62,7 +66,8 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           </label>
           <label>
             <input 
-              type="date" 
+              type="date"
+              class="formAttribute" 
               name="expiration_date" 
               value={formData.expiration_date || ""} 
               onChange={handleChange} 

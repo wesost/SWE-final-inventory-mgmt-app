@@ -1,4 +1,4 @@
-.edit-form-overlay {
+.confirm-dialog-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,8 +10,7 @@
     justify-content: center;
 }
 
-
-.edit-form-container {
+.confirm-dialog-container {
     background: white;
     padding: 2rem;
     border-radius: 10px;
@@ -20,14 +19,9 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-.form-actions {
+.dialog-actions {
     margin-top: 1rem;
     display: flex;
     gap: 2rem;
     justify-content: flex-end;
 }
-
-.formAttribute {
-    color: #888;
-}
-  
