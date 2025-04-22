@@ -2,7 +2,7 @@
 # Modified: 4/1/2025
 #
 # This is the main build script. Run this script from the root project directory to start the application
-#
+# export PATH=$PATH:/c/Program\ Files/nodejs
 # First performs a check that the project files have already been set up. If not, it will
 #  install the necessary packages and then continue with the application startup.
 # Once all necessary packages have been installed, it runs child scripts in build-scripts

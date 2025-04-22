@@ -1,6 +1,0 @@
-# Rename this file to .env
-
-DB_HOST=localhost
-DB_USER=root
-DB_PASS=*Database password*
-DB_NAME=*Database name*
