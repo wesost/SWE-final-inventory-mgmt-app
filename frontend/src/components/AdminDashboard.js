@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditItemForm from "../components/EditItemForm";
 import ConfirmDialog from "./ConfirmationDialog";
+import ScanDialog from "./AdminDashboardScanDialog";
 import '../styles/AdminDashboard.css';
 
 const AdminDashboard = () => {
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showScanDialog, setShowScanDialog] = useState(false);
   const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({
     itemName: "",
     category: "",
@@ -43,6 +46,19 @@ const AdminDashboard = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleSaveEdit = (updatedItem) => {
+    axios.put(`http://localhost:5000/api/items/${updatedItem.item_id}`, updatedItem)
+      .then(() => {
+        showToast("Item Updated");
+        fetchItems();
+        setShowEditForm(false);
+      })
+      .catch((error) => {
+        console.error("Error updating item:", error);
+        showToast("Update failed. Please try again.", false);
+      })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -93,6 +109,7 @@ const AdminDashboard = () => {
     <div className="admin-dashboard">
       <main className="admin-content">
         <h2 id="pageTitle">Inventory Dashboard</h2>
+        <hr id="titleUnderline" />
         <div id="dashBoardNotification"></div>
         <div id="tableWrapper">
         <table>
@@ -116,7 +133,15 @@ const AdminDashboard = () => {
                   <td>{item.net_weight}</td>
                   <td>{item.expiration_date || "N/A"}</td>
                   <td className="actionTab">
-                    <button className="editItem" onClick={() => setShowEditForm(true)}>Edit</button>
+                    <button
+                      className="editItem"
+                      onClick={() => {
+                        setSelectedItem(item);
+                        setShowEditForm(true);
+                      }}
+                    >
+                      Edit
+                    </button>
                     <button className="removeItem" onClick={() => handleDeleteClick(item.item_id)}>Remove</button>
                   </td>
                 </tr>
@@ -128,12 +153,14 @@ const AdminDashboard = () => {
                     <button
                       className="editItem disabled"
                       disabled
+                      onClick={() => showToast("No Item to Edit", false)}
                     >
                       Edit
                     </button>
                     <button
-                      className="actionButton"
-                      onClick={() => showToast("No item to remove.", false)}
+                      className="removeItem disabled"
+                      onClick={() => showToast("No item to Remove", false)}
+                      disabled
                     >
                       Remove
                     </button>
@@ -143,10 +170,18 @@ const AdminDashboard = () => {
           </tbody>
         </table>
         </div>
-        {showEditForm && <EditItemForm onClose={() => setShowEditForm(false)} />}
+        {showEditForm && (
+            <EditItemForm
+              item={selectedItem}
+              onClose={() => setShowEditForm(false)}
+              onSave={handleSaveEdit}
+            />
+          )}
 
+        <div class="adminActions">
         <section className="add-item">
           <h3>Add New Item</h3>
+          <hr />
           <form onSubmit={handleSubmit}>
             <label><input className="addFormAttribute" type="text" name="itemName" placeholder="Name" value={formData.itemName} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
@@ -155,11 +190,28 @@ const AdminDashboard = () => {
             <label><input className="addFormAttribute" type="date" name="expirationDate" placeholder="Expiration Date" value={formData.expirationDate} onChange={handleChange} required /></label>
             <div id="addFormButtons">
               <button type="submit" id="manualAdd">Add Item</button>
-              <button type="submit" id="scanAdd">Scan to Add</button>
+              <button type="button" id="scanAdd" onClick={() => setShowScanDialog(true)}>Scan to Add</button>
             </div>
           </form>
+          {showScanDialog && (
+            <ScanDialog
+              onConfirm={() => {
+                setShowScanDialog(false); 
+              }}
+              onCancel={() => setShowScanDialog(false)}
+            />
+          )}
         </section>
-
+        <div class="adminOptions">
+        <h3>Options</h3>
+        <hr />
+        <div id="extraOptions">
+          <button type="submit" class="extraOptionButton" id="manualAdd">Analytics</button>
+          <button type="submit" class="extraOptionButton" id="manualAdd">Button</button>
+          <button type="submit" class="extraOptionButton" id="manualAdd">logout</button>
+        </div>
+        </div>
+        
         {showConfirm && (
           <ConfirmDialog
             message="Are you sure you want to delete this item?"
@@ -170,6 +222,7 @@ const AdminDashboard = () => {
             }}
           />
         )}
+        </div>
       </main>
     </div>
   );
