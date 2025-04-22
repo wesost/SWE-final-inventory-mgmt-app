@@ -22,6 +22,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
     <div className="edit-form-overlay">
       <div className="edit-form-container">
         <h3>Edit Item</h3>
+        <hr />
         <form onSubmit={handleSubmit}>
           <label>
             <input 
