@@ -18,7 +18,7 @@
 --
 -- Table structure for table `items`
 --
-
+CREATE DATABASE IF NOT EXISTS `nutrition_center`;
 USE nutrition_center;
 
 DROP TABLE IF EXISTS `items`;
