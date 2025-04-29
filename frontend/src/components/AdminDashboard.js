@@ -85,15 +85,15 @@ const AdminDashboard = () => {
     setItemToDelete(id);
     setShowConfirm(true);
   };
-
+  
   const confirmDelete = () => {
     if (!itemToDelete) {
       showToast("No item selected", false);
       return;
     }
-
-    axios.delete(`http://localhost:5000/api/items/${itemToDelete}`)
-      .then(() => {
+    
+    axios.delete(`http://localhost:5000/api/items/${itemToDelete.item_id}`)
+    .then(() => {
         showToast("Item Removed");
         fetchItems();
         setItemToDelete(null);
@@ -142,14 +142,14 @@ const AdminDashboard = () => {
                     >
                       Edit
                     </button>
-                    <button className="removeItem" onClick={() => handleDeleteClick(item.item_id)}>Remove</button>
+                    <button className="removeItem" onClick={() => handleDeleteClick(item)}>Remove</button>
                   </td>
                 </tr>
               ))
             ) : (
                 <tr>
                   <td colSpan="5">No items available</td>
-                  <td class="actionTab">
+                  <td className="actionTab">
                     <button
                       className="editItem disabled"
                       disabled
@@ -178,7 +178,7 @@ const AdminDashboard = () => {
             />
           )}
 
-        <div class="adminActions">
+        <div className="adminActions">
         <section className="add-item">
           <h3>Add New Item</h3>
           <hr />
@@ -202,18 +202,19 @@ const AdminDashboard = () => {
             />
           )}
         </section>
-        <div class="adminOptions">
+        <div className="adminOptions">
         <h3>Options</h3>
         <hr />
         <div id="extraOptions">
-          <button type="submit" class="extraOptionButton" id="manualAdd">Analytics</button>
-          <button type="submit" class="extraOptionButton" id="manualAdd">Button</button>
-          <button type="submit" class="extraOptionButton" id="manualAdd">logout</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">Analytics</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">Button</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">logout</button>
         </div>
         </div>
         
         {showConfirm && (
           <ConfirmDialog
+          item={itemToDelete}
             message="Are you sure you want to delete this item?"
             onConfirm={confirmDelete}
             onCancel={() => {

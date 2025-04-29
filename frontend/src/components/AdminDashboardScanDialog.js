@@ -55,13 +55,13 @@ const ScanDialog = ({ message, onConfirm, onCancel }) => {
       <div className="confirm-dialog-container">
         <h3>Scan Your Item(s)</h3>
         <hr />
-        <div className="landing-scanner-area">
-          <div className={`scanner-box ${scannerActive ? 'active' : ''}`}>
+        <div className="admin-scanner-area">
+          <div className={`admin-scanner-box ${scannerActive ? 'active' : ''}`}>
               {renderBarcodeLines()}
-            <div className="scanner-animation"></div>
+            <div className="admin-scanner-animation"></div>
               <p>Target Barcode</p>
               {scannedCode && (
-          <div className="scanning-feedback">Reading: {scannedCode}</div>
+          <div className="admin-scanning-feedback">Reading: {scannedCode}</div>
               )}
           </div>
         </div>
