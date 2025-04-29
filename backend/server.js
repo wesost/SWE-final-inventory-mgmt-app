@@ -39,12 +39,12 @@ db.connect(err => {
         return;
     }
     console.log('Connected to MySQL Database');
+    // For developer testing, create a fake user
+    // This should be removed when actually deployed
+    const { setupAuth } = require('./setupAuth');
+    setupAuth(db);
 });
 
-// For developer testing, create a fake user
-// This should be removed when actually deployed
-const { setupAuth } = require('./setupAuth');
-setupAuth(db);
 
 // API Routes
 // ----------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ app.put('/api/items/:id', (req, res) => {
 });
 
 // Start Server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Backend server is running on port ${PORT}`);
 });
