@@ -67,6 +67,8 @@ app.post('/api/upc-lookup', async (req, res) => {
     const foundItemData = response.data.items[0]; // gets item details
 
     // store data LOCALLY
+    // INSTEAD OF THIS, STORE DATA TO DB
+    //-----
     // TODO: again, need to store to our db, not locally, maybe don't need this at all
     const newItemToStore = { 
       id: nextId++,

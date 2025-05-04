@@ -1,134 +1,112 @@
-/* LandingPage styling */
 .LandingPage {
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    flex: 1 0 auto;
-    min-height: calc(100vh - 120px); /* Account for header and footer */
-    background-color: #C22033;
-  }
+  position: fixed;
+  height: auto;
+  width: auto;
+  top: 10%;
+  left: 0;
+  right: 0;
+  bottom: 5%;
+  z-index: 1;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
   
-  /* Main content takes up all available space */
-  .main-content {
-    flex: 1;
-    padding: 40px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.main-content {
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.landing-container {
+  width: 1000px;
+  padding: 40px;
+  background: rgba(44, 41, 41, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.landing-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.landing-subtitle {
+  color: #67BAAF;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.landing-scanner-area {
+  margin: 40px 0;
+}
+
+.scanner-box {
+  width: 300px;
+  height: 180px;
+  margin: 0 auto;
+  border: 2px dashed #C7B683;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.scanner-box p {
+  margin-top: 60px;
+  color: #C7B683;
+}
+
+.scanner-animation {
+  width: 80%;
+  height: 2px;
+  background-color: #67BAAF;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  animation: scanAnimation 2s infinite ease-in-out;
+  box-shadow: 0 0 10px #67BAAF;
+}
+
+@keyframes scanAnimation {
+  0% {
+      top: 20%;
   }
+  50% {
+      top: 80%;
+  }
+  100% {
+      top: 20%;
+  }
+}
+
+.landing-actions {
+  margin-top: 30px;
+}
+
+.admin-login-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #C22033;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
   
-  .landing-container {
-    width: 100%;
-    max-width: 800px;
-    padding: 40px;
-    background: rgba(44, 41, 41, 0.8);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border-left: 4px solid #C22033;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .landing-title {
-    font-size: 32px;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 10px;
-  }
-  
-  .landing-subtitle {
-    color: #67BAAF;
-    font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 30px;
-  }
-  
-  .landing-scanner-area {
-    margin: 40px 0;
-  }
-  
-  .scanner-box {
-    width: 300px;
-    height: 180px;
-    margin: 0 auto;
-    border: 2px dashed #C7B683;
-    border-radius: 8px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-  
-  .scanner-box p {
-    margin-top: 60px;
-    color: #C7B683;
-  }
-  
-  .scanner-animation {
-    width: 80%;
-    height: 2px;
-    background-color: #67BAAF;
-    position: absolute;
-    top: 50%;
-    left: 10%;
-    transform: translateY(-50%);
-    animation: scanAnimation 2s infinite ease-in-out;
-    box-shadow: 0 0 10px #67BAAF;
-  }
-  
-  @keyframes scanAnimation {
-    0% {
-        top: 20%;
-    }
-    50% {
-        top: 80%;
-    }
-    100% {
-        top: 20%;
-    }
-  }
-  
-  .landing-actions {
-    margin-top: 30px;
-  }
-  
-  .admin-login-btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #C22033;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .admin-login-btn:hover {
-    background-color: #018b99;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .landing-container {
-        padding: 20px;
-    }
-    
-    .landing-title {
-        font-size: 24px;
-    }
-    
-    .landing-subtitle {
-        font-size: 18px;
-    }
-    
-    .scanner-box {
-        width: 250px;
-        height: 150px;
-    }
-  }
+.admin-login-btn:hover {
+  background-color: #018b99;
+}

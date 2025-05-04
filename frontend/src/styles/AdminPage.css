@@ -1,11 +1,14 @@
 .admin-login-container {
-    height: 100vh;
+    position: fixed;
+    top: 10%;
+    left: 0;
+    right: 0;
+    bottom: 5%;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), #333;
-    position: relative;
+    color: white;   
 }
 
 .admin-login-container::before {
@@ -20,15 +23,13 @@
 
 .container {
     width: 100%;
-    max-width: 400px;
+    max-width: 1000px;
     padding: 40px;
     background: rgba(44, 41, 41, 0.8);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border-left: 4px solid #C22033;
     text-align: center;
     position: relative;
-    z-index: 1;
 }
 
 .logo img {

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom"; 
+//import { Link } from "react-router-dom"; 
 import '../styles/LandingPage.css';
+import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const LandingPage = () => {
 
@@ -51,7 +52,7 @@ const LandingPage = () => {
             console.log("Recieved data from backend:", data);
 
             //check if response has expected properties
-            if (data && data.id && data.title) { // id and title should always be there
+            if (data.message && data.title) { // id and title should always be there
                 setProduct(data); // data object is the product info set from the backend after it does its thing
                 setError(null); // clear previous errors if needed
                 console.log("Product found and stored:", data);
@@ -138,9 +139,13 @@ const LandingPage = () => {
     return (
         <div className="LandingPage">
             <div className="main-content">
-            {error && <p style={{ color: 'blue' }}>Error: {error}</p>}
+            {/* {error && <p style={{ color: 'blue' }}>Error: {error}</p>} */}
 
                 <div className="landing-container">
+                    {/* You can add the logo here if needed */}
+                    <div className="logo">
+                        <img src={whitworthLogo} alt="Whitworth Logo" />
+                    </div>
                     <h1 className="landing-title">Welcome to Whitworth University</h1>
                     <h2 className="landing-subtitle">Please Scan Item Barcodes</h2>
                     {
@@ -159,29 +164,34 @@ const LandingPage = () => {
                     )} */}
                     <div className="landing-scanner-area">
                     {product && (
-          <div>
-            <h2>Product Information</h2>
-             {/*some of the fields returned by the api */}
-            <p><strong>UPC:</strong> {product.ean || product.upc || 'N/A'}</p> {/* Display scanned UPC */}
-            <p><strong>Title:</strong> {product.title || 'N/A'}</p>
-            <p><strong>Brand:</strong> {product.brand || 'N/A'}</p>
-            <p><strong>Category:</strong> {product.category || 'N/A'}</p>
-            {product.images && product.images.length > 0 && (
-              <img src={product.images[0]} alt={product.title || 'Product Image'} width="200" />
-            )}
+                        <div>
+                          <h2>Product Information</h2>
+                           {/*some of the fields returned by the api */}
+                          <p><strong>UPC:</strong> {product.ean || product.upc || 'N/A'}</p> {/* Display scanned UPC */}
+                          <p><strong>Title:</strong> {product.title || 'N/A'}</p>
+                          <p><strong>Brand:</strong> {product.brand || 'N/A'}</p>
+                          <p><strong>Category:</strong> {product.category || 'N/A'}</p>
+                          {product.images && product.images.length > 0 && (
+                            <img src={product.images[0]} alt={product.title || 'Product Image'} width="200" />
+                          )}
              
-          </div>
-        )}
-                    {!product && (
+                        </div>
+                    )}
+                    {/* no product and no error - show scan box animation */}
+                    {!product && !error && (
+                        
                         <div className="scanner-box">
                             <div className="scanner-animation"></div>
                             <p>Position barcode in scanning area</p>
                         </div>
                     )}
+                    {/* no product and an error - display error message */}
+                    {!product && error && (
+                        <div>
+                            <p style={{ color: 'blue' }}>Error: {error} </p>
+                        </div>
+                    )}
 
-                    </div>
-                    <div className="landing-actions">
-                        <Link to="/login" className="admin-login-btn">Administrator Login</Link>
                     </div>
                 </div>
             </div>

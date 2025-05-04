@@ -1,16 +1,17 @@
 .header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
     display: flex;
     justify-content: space-between;
+    height: 10%;
+    padding: 20px;
     align-items: center;
-    padding: 30px;
     background-color: #f4f4f4;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
-  
-.header .logo img {
-    max-height: 50px;
-}
-  
+    
 .nav ul {
     list-style-type: none;
     display: flex;
