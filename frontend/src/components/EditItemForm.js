@@ -22,10 +22,12 @@ const EditItemForm = ({ item, onClose, onSave }) => {
     <div className="edit-form-overlay">
       <div className="edit-form-container">
         <h3>Edit Item</h3>
+        <hr />
         <form onSubmit={handleSubmit}>
           <label>
             <input 
               type="text" 
+              className="formAttribute"
               name="name" 
               value={formData.name || ""} 
               onChange={handleChange} 
@@ -35,6 +37,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="text" 
+              className="formAttribute"
               name="category" 
               value={formData.category || ""} 
               onChange={handleChange} 
@@ -44,6 +47,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="number" 
+              className="formAttribute"
               name="quantity" 
               value={formData.quantity || ""} 
               onChange={handleChange} 
@@ -53,6 +57,7 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           <label>
             <input 
               type="number" 
+              className="formAttribute"
               step="0.1" 
               name="net_weight" 
               value={formData.net_weight || ""} 
@@ -62,7 +67,8 @@ const EditItemForm = ({ item, onClose, onSave }) => {
           </label>
           <label>
             <input 
-              type="date" 
+              type="date"
+              className="formAttribute" 
               name="expiration_date" 
               value={formData.expiration_date || ""} 
               onChange={handleChange} 

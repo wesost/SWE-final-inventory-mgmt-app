@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditItemForm from "../components/EditItemForm";
+import ConfirmDialog from "./ConfirmationDialog";
+import ScanDialog from "./AdminDashboardScanDialog";
 import '../styles/AdminDashboard.css';
 
 const AdminDashboard = () => {
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showScanDialog, setShowScanDialog] = useState(false);
   const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({
     itemName: "",
     category: "",
@@ -14,7 +18,9 @@ const AdminDashboard = () => {
     expirationDate: ""
   });
 
-  // Fetch items from the backend
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -25,12 +31,35 @@ const AdminDashboard = () => {
       .catch(error => console.error("Error fetching items:", error));
   };
 
-  // Handle form input changes
+  const showToast = (message, isSuccess = true) => {
+    const notif = document.getElementById("dashBoardNotification");
+    if (notif) {
+      notif.textContent = message;
+      notif.style.backgroundColor = isSuccess ? "#4BB543" : "#FF3333";
+      notif.style.display = "block";
+      setTimeout(() => {
+        notif.style.display = "none";
+      }, 5000);
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
+  const handleSaveEdit = (updatedItem) => {
+    axios.put(`http://localhost:5000/api/items/${updatedItem.item_id}`, updatedItem)
+      .then(() => {
+        showToast("Item Updated");
+        fetchItems();
+        setShowEditForm(false);
+      })
+      .catch((error) => {
+        console.error("Error updating item:", error);
+        showToast("Update failed. Please try again.", false);
+      })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -41,32 +70,48 @@ const AdminDashboard = () => {
       weight: formData.weight,
       expiration_date: formData.expirationDate
     })
-    .then(response => {
-      alert("Item added successfully!");
-      fetchItems(); // Refresh the list
+    .then(() => {
+      showToast("Item added");
+      fetchItems();
       setFormData({ itemName: "", category: "", quantity: "", weight: "", expirationDate: "" });
     })
-    .catch(error => console.error("Error adding item:", error));
+    .catch(error => {
+      console.error("Error adding item:", error);
+      showToast("Add failed. Please try again.", false);
+    });
   };
 
-  // Handle item deletion
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this item?")) {
-      axios.delete(`http://localhost:5000/api/items/${id}`)
-        .then(response => {
-          alert("Item removed successfully!");
-          fetchItems(); // Refresh the list
-        })
-        .catch(error => console.error("Error deleting item:", error));
+  const handleDeleteClick = (id) => {
+    setItemToDelete(id);
+    setShowConfirm(true);
+  };
+  
+  const confirmDelete = () => {
+    if (!itemToDelete) {
+      showToast("No item selected", false);
+      return;
     }
+    
+    axios.delete(`http://localhost:5000/api/items/${itemToDelete.item_id}`)
+    .then(() => {
+        showToast("Item Removed");
+        fetchItems();
+        setItemToDelete(null);
+        setShowConfirm(false);
+      })
+      .catch(error => {
+        console.error("Error deleting item:", error);
+        showToast("Delete failed. Please try again.", false);
+      });
   };
 
   return (
     <div className="admin-dashboard">
       <main className="admin-content">
-        <h2>Food Inventory Dashboard</h2>
-
-        {/* Display Items */}
+        <h2 id="pageTitle">Inventory Dashboard</h2>
+        <hr id="titleUnderline" />
+        <div id="dashBoardNotification"></div>
+        <div id="tableWrapper">
         <table>
           <thead>
             <tr>
@@ -75,52 +120,110 @@ const AdminDashboard = () => {
               <th>Quantity</th>
               <th>Weight (kg)</th>
               <th>Expiration Date</th>
-              <th>Actions</th>
+              <th id="actionMenu">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {/* Check if the 'items' array has any data */}
             {items.length > 0 ? (
               items.map((item) => (
                 <tr key={item.item_id}>
                   <td>{item.name}</td>
                   <td>{item.category}</td>
                   <td>{item.quantity}</td>
-                  <td>{item.net_weight}</td> 
-                  <td>{item.expiration_date || "N/A"}</td> 
+                  <td>{item.net_weight}</td>
+                  <td>{item.expiration_date || "N/A"}</td>
                   <td className="actionTab">
-                    <button className="editItem" onClick={() => setShowEditForm(true)}>Edit</button>
-                    <button onClick={() => handleDelete(item.item_id)}>Remove</button>
+                    <button
+                      className="editItem"
+                      onClick={() => {
+                        setSelectedItem(item);
+                        setShowEditForm(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button className="removeItem" onClick={() => handleDeleteClick(item)}>Remove</button>
                   </td>
                 </tr>
               ))
             ) : (
-              //If no items are available display message but provide action buttons
-              <tr>
-                <td colSpan="5">No items available</td> 
-                <td className="actionTab">
-                  <button className="actionButton" id="editItem" onClick={() => setShowEditForm(true)}>Edit</button>
-                  <button className="actionButton" id="removeItem" onClick={() => alert("No item to delete!")}>Remove</button>
-                </td>
-              </tr>
+                <tr>
+                  <td colSpan="5">No items available</td>
+                  <td className="actionTab">
+                    <button
+                      className="editItem disabled"
+                      disabled
+                      onClick={() => showToast("No Item to Edit", false)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="removeItem disabled"
+                      onClick={() => showToast("No item to Remove", false)}
+                      disabled
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
             )}
           </tbody>
         </table>
+        </div>
+        {showEditForm && (
+            <EditItemForm
+              item={selectedItem}
+              onClose={() => setShowEditForm(false)}
+              onSave={handleSaveEdit}
+            />
+          )}
 
-        {showEditForm && <EditItemForm onClose={() => setShowEditForm(false)} />}
-
-        {/* Add Item Form */}
+        <div className="adminActions">
         <section className="add-item">
           <h3>Add New Item</h3>
+          <hr />
           <form onSubmit={handleSubmit}>
-            <label><input type="text" name="itemName" placeholder="Item Name" value={formData.itemName} onChange={handleChange} required /></label>
-            <label><input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
-            <label><input type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} required /></label>
-            <label><input type="number" step="0.1" name="weight" placeholder="Weight (kg)" value={formData.weight} onChange={handleChange} required /></label>
-            <label><input type="date" name="expirationDate" placeholder="Expiration Date" value={formData.expirationDate} onChange={handleChange} required /></label>
-            <button type="submit">Add Item</button>
+            <label><input className="addFormAttribute" type="text" name="itemName" placeholder="Name" value={formData.itemName} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="number" step="0.1" name="weight" placeholder="Weight(kg)" value={formData.weight} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="date" name="expirationDate" placeholder="Expiration Date" value={formData.expirationDate} onChange={handleChange} required /></label>
+            <div id="addFormButtons">
+              <button type="submit" id="manualAdd">Add Item</button>
+              <button type="button" id="scanAdd" onClick={() => setShowScanDialog(true)}>Scan to Add</button>
+            </div>
           </form>
+          {showScanDialog && (
+            <ScanDialog
+              onConfirm={() => {
+                setShowScanDialog(false); 
+              }}
+              onCancel={() => setShowScanDialog(false)}
+            />
+          )}
         </section>
+        <div className="adminOptions">
+        <h3>Options</h3>
+        <hr />
+        <div id="extraOptions">
+          <button type="submit" className="extraOptionButton" id="manualAdd">Analytics</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">Button</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">logout</button>
+        </div>
+        </div>
+        
+        {showConfirm && (
+          <ConfirmDialog
+          item={itemToDelete}
+            message="Are you sure you want to delete this item?"
+            onConfirm={confirmDelete}
+            onCancel={() => {
+              setShowConfirm(false);
+              setItemToDelete(null);
+            }}
+          />
+        )}
+        </div>
       </main>
     </div>
   );

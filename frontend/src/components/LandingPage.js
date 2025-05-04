@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 //import { Link } from "react-router-dom"; 
 import '../styles/LandingPage.css';
 import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
+import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const LandingPage = () => {
 
@@ -146,6 +147,10 @@ const LandingPage = () => {
                     <div className="logo">
                         <img src={whitworthLogo} alt="Whitworth Logo" />
                     </div>
+                    {/* You can add the logo here if needed */}
+                    <div className="logo">
+                        <img src={whitworthLogo} alt="Whitworth Logo" />
+                    </div>
                     <h1 className="landing-title">Welcome to Whitworth University</h1>
                     <h2 className="landing-subtitle">Please Scan Item Barcodes</h2>
                     {
@@ -183,6 +188,9 @@ const LandingPage = () => {
                         <div className="scanner-box">
                             <div className="scanner-animation"></div>
                             <p>Position barcode in scanning area</p>
+                            {scannedCode && (
+                                <div className="scanning-feedback">Reading: {scannedCode}</div>
+                            )}
                         </div>
                     )}
                     {/* no product and an error - display error message */}
@@ -200,3 +208,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+

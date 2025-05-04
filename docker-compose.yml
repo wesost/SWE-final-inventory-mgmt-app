@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=snackoverflow25
+      - DB_NAME=nutrition_center
+      - SESSION_SECRET=supersecret
+      - DEFAULT_ADMIN_USERNAME=admin
+      - DEFAULT_ADMIN_PASSWORD=admin123
+      - DEFAULT_ADMIN_EMAIL=admin@example.com
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: snackoverflow25
+      MYSQL_DATABASE: nutrition_center
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/createDB.sql:/docker-entrypoint-initdb.d/createDB.sql
+
+volumes:
+  db_data:
