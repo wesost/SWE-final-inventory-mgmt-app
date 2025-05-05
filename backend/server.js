@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
-
+const util = require('util');
 const app = express();
 
 // Middleware

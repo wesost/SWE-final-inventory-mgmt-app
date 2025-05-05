@@ -187,9 +187,6 @@ const LandingPage = () => {
                         <div className="scanner-box">
                             <div className="scanner-animation"></div>
                             <p>Position barcode in scanning area</p>
-                            {scannedCode && (
-                                <div className="scanning-feedback">Reading: {scannedCode}</div>
-                            )}
                         </div>
                     )}
                     {/* no product and an error - display error message */}
