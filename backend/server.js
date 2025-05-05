@@ -166,6 +166,7 @@ async function checkIfItemEntryPresentInDB (upc) {
       if (count > 0){
         return true;
       }
+      return false;
     }
     return false;
   } catch (error){
@@ -174,22 +175,31 @@ async function checkIfItemEntryPresentInDB (upc) {
   }
 }
 
-async function incrementItemQuantity(upc) {
+async function incrementItemQuantity(upc, res) { // res 
   if (!upc){
     throw new Error("No upc passed to increment function");
   }
   const query = util.promisify(db.query).bind(db);
   const sql = 'UPDATE items SET quantity = quantity + 1 WHERE barcode = ?';
+  const resSql = 'SELECT * FROM items WHERE barcode = ?';
   console.log(`Attempting to increment count of item with upc: ${upc}`);
   try{
     const results = await query(sql, [upc]);
     if (results && results.affectedRows > 0){
       console.log(`Successfully incremented quantity for upc ${upc}`);
-      return true;
+      const [product] = await query(resSql, [upc]); // get rows from table for product
+      // console.log(product); // debugging line
+      res.json({ // returns title and category to frontend
+        message: 'Incremented item, sending item data to frontend', 
+        title: product.name || 'no title',
+        category: product.category || 'no category',
+      });
+      // return product;
+      // return true;
     }
     else{
       console.log(`Item with upc: ${upc} not found, quantity not incremented...this should not happen`);
-      return false;
+      // return false;
     }
   } catch (error) {
       console.error(`Database error while incrementing quantity for barcode ${upc}:`, error);
@@ -235,13 +245,11 @@ app.post('/api/upc-lookup', async (req, res) => {
   try {
     console.log(`Backend recieved lookup request for upc: ${upc}`);
     // if item already exists in db, increment inventory count
-    const itemAlreadyPresentInDB = checkIfItemEntryPresentInDB(upc);
-    if (itemAlreadyPresentInDB && incrementItemQuantity(upc)){
+    const itemAlreadyPresentInDB = await checkIfItemEntryPresentInDB(upc);
+    if (itemAlreadyPresentInDB){
+      incrementItemQuantity(upc, res);
       console.log('quantity incremented');
-
-
-    }
-    else { // if item not present in db, make external api call to add it
+    } else { // if item not present in db, make external api call to add it
       const response = await axios.post(
         'https://api.upcitemdb.com/prod/trial/lookup',
         { upc }, // sends upc
@@ -271,9 +279,11 @@ app.post('/api/upc-lookup', async (req, res) => {
       else {
         // api call succeded but api didn't find item
         console.log(`no item found for upc: ${upc} by API`);
-        res.status(404).json({message: "no product found for provided upc by api!"}); // 404 = not found
+        //AT THIS POINT WE SHOULD PROMPT ADMIN FOR MANUAL ENTRY OF ITEM TO DB
+        // API might not find product info for every product (ex. small energy drink brand)
+        res.status(404).json({message: "no product found for provided upc by api, please enter details manually"}); // 404 = not found
       }
-    } 
+    }
   } catch (error) {
     console.error("Error fetching UPC data from api", error.response ? error.response.data : error.message);
   }
