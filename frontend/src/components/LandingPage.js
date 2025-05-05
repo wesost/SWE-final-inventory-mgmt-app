@@ -56,26 +56,19 @@ const LandingPage = () => {
                 setProduct(data); // data object is the product info set from the backend after it does its thing
                 setError(null); // clear previous errors if needed
                 console.log("Product found and stored:", data);
-
-
             }
             else {
                 // if it doesn't match what we are looking for, assume prod not found
                 // handles cases where api returns some random thing
                 // or if backend sent 404 message object/error
                 setProduct(null);
-
                 // use message from backend if available, otherwise default message
                 setError(data.message || `No product found for UPC: ${upcToLookup}.`);
                 console.log("Product not found or backend response format unrecognized.", data);
-
             }
-
-
-
         } catch (err) {
             console.error("Error fetching product:", err);
-            setError("Failed to communicate with server");
+            setError(`Scanned item with code ${upcToLookup} not found in database, please add from admin dashboard`); // shouldn't be scanning things that aren't already in db on landing page
             setProduct(null);
 
         } finally {
@@ -171,7 +164,7 @@ const LandingPage = () => {
                         <div>
                           <h2>Product Information</h2>
                            {/*some of the fields returned by the api */}
-                          <p><strong>UPC:</strong> {product.ean || product.upc || 'N/A'}</p> {/* Display scanned UPC */}
+
                           <p><strong>Title:</strong> {product.title || 'N/A'}</p>
                           <p><strong>Brand:</strong> {product.brand || 'N/A'}</p>
                           <p><strong>Category:</strong> {product.category || 'N/A'}</p>
