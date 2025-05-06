@@ -22,6 +22,7 @@
 
 .landing-container {
   width: 1000px;
+  height: 433px;
   padding: 40px;
   background: rgba(44, 41, 41, 0.8);
   border-radius: 12px;
@@ -30,6 +31,7 @@
 }
 
 .landing-title {
+  margin-top: 15px;
   font-size: 32px;
   font-weight: 600;
   color: #ffffff;
@@ -37,6 +39,7 @@
 }
 
 .landing-subtitle {
+  margin-top: 15px;
   color: #67BAAF;
   font-size: 22px;
   font-weight: 500;
@@ -62,7 +65,7 @@
 }
 
 .scanner-box p {
-  margin-top: 60px;
+  font-size: 18px;
   color: #C7B683;
 }
 

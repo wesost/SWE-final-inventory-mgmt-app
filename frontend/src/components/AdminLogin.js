@@ -45,15 +45,8 @@ const AdminLogin = () => {
   return (
     <div className="admin-login-container">
       <div className="container">
-        <div className="logo">
-          <img 
-            src={whitworthLogo}  // This needs fixing still so that it will display on the front page 
-            alt="Whitworth University Logo" 
-          />
-        </div>
-        
+
         <h1>Admin Dashboard</h1>
-        <div className="header-subtitle">Secure Administrator Access</div>
 
         {error && <div className="error-message">{error}</div>}
 
