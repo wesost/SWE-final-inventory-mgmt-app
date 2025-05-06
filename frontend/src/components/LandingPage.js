@@ -139,8 +139,8 @@ const LandingPage = () => {
                     <div className="logo">
                         <img src={whitworthLogo} alt="Whitworth Logo" />
                     </div>
-                    <h1 className="landing-title">Welcome to Whitworth University</h1>
-                    <h2 className="landing-subtitle">Please Scan Item Barcodes</h2>
+                    <h1 className="landing-title">Welcome to Whitworth University Nutrition Center</h1>
+                    <h2 className="landing-subtitle">Please Scan Items Barcodes</h2>
                     {
                     /* display product info with conditional rendering
                     only shows this part of the website if a product has been scanned 
