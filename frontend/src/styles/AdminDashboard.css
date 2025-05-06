@@ -105,6 +105,9 @@ table {
 td {
     padding: 10px;
     text-align: left;
+    /* border-style: solid;
+    border-width: 0.1px;
+    border-color: #888; */
 }
 
 thead th {

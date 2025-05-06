@@ -31,7 +31,7 @@ services:
       MYSQL_ROOT_PASSWORD: snackoverflow25
       MYSQL_DATABASE: nutrition_center
     ports:
-      - "3306:3306"
+      - "3307:3306" # Expose MySQL on port 3307 - could be changed to 3306 if needed
     volumes:
       - db_data:/var/lib/mysql
       - ./backend/createDB.sql:/docker-entrypoint-initdb.d/createDB.sql
