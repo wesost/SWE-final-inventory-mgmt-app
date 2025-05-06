@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const util = require('util');
 const app = express();
+const axios = require('axios'); // for making external API calls
 
 // Middleware
 app.use(express.json());

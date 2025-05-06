@@ -139,10 +139,6 @@ const LandingPage = () => {
                     <div className="logo">
                         <img src={whitworthLogo} alt="Whitworth Logo" />
                     </div>
-                    {/* You can add the logo here if needed */}
-                    <div className="logo">
-                        <img src={whitworthLogo} alt="Whitworth Logo" />
-                    </div>
                     <h1 className="landing-title">Welcome to Whitworth University</h1>
                     <h2 className="landing-subtitle">Please Scan Item Barcodes</h2>
                     {
