@@ -32,7 +32,7 @@ CREATE TABLE `items` (
   `net_weight` decimal(10,2) DEFAULT NULL,
   `quantity` int DEFAULT '0',
   `location_purchased` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`item_id`),
+  PRIMARY KEY (`barcode`),
   UNIQUE KEY `barcode` (`barcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
