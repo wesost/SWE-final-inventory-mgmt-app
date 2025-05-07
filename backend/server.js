@@ -215,7 +215,9 @@ async function incrementItemQuantity(upc, res) { // res
     if (results && results.affectedRows > 0){
       console.log(`Successfully incremented quantity for upc ${upc}`);
       const [product] = await query(resSql, [upc]); // get rows from table for product
-      // console.log(product); // debugging line
+      
+      await logTransaction(product.item_id, 'IN', 1); // log transaction to db
+      
       res.json({ // returns title and category to frontend
         message: 'Incremented item, sending item data to frontend', 
         title: product.name || 'no title',
@@ -315,8 +317,18 @@ app.post('/api/upc-lookup', async (req, res) => {
     console.error("Error fetching UPC data from api", error.response ? error.response.data : error.message);
   }
   
-  });
-  //////////////
+});
+
+async function logTransaction(ItemID, type, quantity =1){
+  const query = util.promisify(db.query).bind(db);
+  const sql = 'INSERT INTO transactions (item_id, type, quantity) VALUES (?, ?, ?)';
+  try {
+    await query(sql, [ItemID, type, quantity]);
+    console.log(`Transaction logged: ${type} ${quantity} of item ID ${ItemID}`);
+  } catch (error) {
+    console.error('Error logging transaction:', error.message);
+  }
+}
 
 // Start Server
 const PORT = process.env.PORT || 5000;

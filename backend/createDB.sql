@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `item_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `barcode` varchar(50) DEFAULT NULL,
+  `barcode` varchar(50) NOT NULL UNIQUE,
   `category` varchar(100) DEFAULT NULL,
   `net_weight` decimal(10,2) DEFAULT NULL,
   `quantity` int DEFAULT '0',
