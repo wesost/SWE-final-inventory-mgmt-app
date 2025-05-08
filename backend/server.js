@@ -300,58 +300,67 @@ function insertItemToDB (item, res) {
 // upc lookup route - calls api 
 // takes the upc to lookup via req and returns json data about the item via res
 // app.post('/api/upc-lookup', async (req, res) => {}
-app.post('/api/upc-lookup', async (req, res) => {
-  const { upc } = req.body;
-  if (!upc) { // this should never happen
-    return res.status(400).json({error: "UPC code is required"});
-    }
-  try {
-    console.log(`Backend recieved lookup request for upc: ${upc}`);
-    // if item already exists in db, increment inventory count
-    const itemAlreadyPresentInDB = await checkIfItemEntryPresentInDB(upc);
-    if (itemAlreadyPresentInDB){
-      incrementItemQuantity(upc, res);
-      console.log('quantity incremented');
-    } else { // if item not present in db, make external api call to add it
-      const response = await axios.post(
-        'https://api.upcitemdb.com/prod/trial/lookup',
-        { upc }, // sends upc
-        {
-          headers: {
-          "Content-Type": "application/json",
-          }
-        }
-      );
-      console.log('API response status:', response.status); // console.log('API response data:', response.data); // if want to log full response
-      //check if api call successful and found an item
-      if (response.data && response.data.items && response.data.items.length > 0) {
-        const foundItemData = response.data.items[0]; // gets item details
-        console.log(foundItemData.upc); // remove eventually, nice to see what data it returns though
-
-        const newItemToStore = { 
-          name: foundItemData.title || 'no title',
-          category: (foundItemData.category) || 'uncategorized',
-          quantity: 1,
-          net_weight: 10, // some hardcoded values for now
-          barcode: foundItemData.upc || foundItemData.ean || upc,
-          location_purchased: 'Spokane',
-          //type: 'scanned', // might want this, or not
-          };
-          insertItemToDB(newItemToStore, res); // insert the item
-      }
-      else {
-        // api call succeded but api didn't find item
-        console.log(`no item found for upc: ${upc} by API`);
-        //AT THIS POINT WE SHOULD PROMPT ADMIN FOR MANUAL ENTRY OF ITEM TO DB
-        // API might not find product info for every product (ex. small energy drink brand)
-        res.status(404).json({message: "no product found for provided upc by api, please enter details manually"}); // 404 = not found
-      }
-    }
-  } catch (error) {
-    console.error("Error fetching UPC data from api", error.response ? error.response.data : error.message);
-  }
+  app.post('/api/upc-lookup', async (req, res) => {
+    const { upc, mode = 'IN' } = req.body; // default mode is 'IN'
   
-});
+    if (!upc) {
+      return res.status(400).json({ error: "UPC code is required" });
+    }
+  
+    try {
+      console.log(`Received lookup request for UPC: ${upc} with mode: ${mode}`);
+  
+      const itemExists = await checkIfItemEntryPresentInDB(upc);
+  
+      if (itemExists) {
+        if (mode === 'OUT') {
+          await decrementItemQuantity(upc, res);
+          console.log('Item quantity decremented.');
+        } else if (mode === 'IN') {
+          await incrementItemQuantity(upc, res);
+          console.log('Item quantity incremented.');
+        } else {
+          return res.status(400).json({ error: "Invalid mode. Must be either 'IN' or 'OUT'" });
+        }
+      } else {
+        if (mode === 'OUT') {
+          // Do not try to add item on scan-out
+          console.log(`Item with UPC ${upc} not found. Cannot decrement.`);
+          return res.status(404).json({ message: "Item not found in inventory." });
+        }
+  
+        // For scan-in, try to fetch product data and insert into DB
+        const response = await axios.post(
+          'https://api.upcitemdb.com/prod/trial/lookup',
+          { upc },
+          { headers: { "Content-Type": "application/json" } }
+        );
+  
+        console.log('API response status:', response.status);
+  
+        if (response.data && response.data.items && response.data.items.length > 0) {
+          const foundItemData = response.data.items[0];
+  
+          const newItemToStore = {
+            name: foundItemData.title || 'no title',
+            category: foundItemData.category || 'uncategorized',
+            quantity: 1,
+            net_weight: 10, // hardcoded value
+            barcode: foundItemData.upc || foundItemData.ean || upc,
+            location_purchased: 'Spokane',
+          };
+  
+          insertItemToDB(newItemToStore, res);
+        } else {
+          console.log(`No item found for UPC ${upc} by external API.`);
+          return res.status(404).json({ message: "No product found for provided UPC. Please enter details manually." });
+        }
+      }
+    } catch (error) {
+      console.error("Error handling UPC lookup:", error.response ? error.response.data : error.message);
+      return res.status(500).json({ error: "Server error during UPC lookup." });
+    }
+  });  
 
 async function logTransaction(ItemID, type, quantity =1){
   const query = util.promisify(db.query).bind(db);
