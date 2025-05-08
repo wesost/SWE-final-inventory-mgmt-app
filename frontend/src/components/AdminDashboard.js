@@ -196,6 +196,7 @@ const AdminDashboard = () => {
           {showScanDialog && (
             <ScanDialog
               onConfirm={() => {
+                fetchItems(); // refresh item list
                 setShowScanDialog(false); 
               }}
               onCancel={() => setShowScanDialog(false)}

@@ -122,29 +122,29 @@ const ScanDialog = ({ message, onConfirm, onCancel }) => {
       }, [scannedUpcBuffer, lookupUpc]); // Rerun effect if buffer or lookup function changes
       // (buffer and lookup function are )
 
-  // const renderBarcodeLines = () => {
-  //     const lines = [];
-  //     const sampleCode = "";
-  //     for (let i = 0; i < 40; i++) {
-  //         const thickness = Math.random() > 0.7 ? 'thick' : (Math.random() > 0.5 ? 'thin' : '');
-  //         const isSpace = Math.random() > 0.8;
-  //         lines.push(
-  //             <div 
-  //                 key={i} 
-  //                 className={`barcode-line ${thickness} ${isSpace ? 'space' : ''}`}
-  //                 style={{ height: `${Math.random() * 30 + 70}%` }}
-  //             ></div>
-  //         );
-  //     }
-  //     return (
-  //         <div className="barcode-container">
-  //             <div className="barcode">
-  //                 {lines}
-  //             </div>
-  //             <div className="barcode-text">{sampleCode}</div>
-  //         </div>
-  //     );
-  // };
+  const renderBarcodeLines = () => {
+      const lines = [];
+      const sampleCode = "";
+      for (let i = 0; i < 40; i++) {
+          const thickness = Math.random() > 0.7 ? 'thick' : (Math.random() > 0.5 ? 'thin' : '');
+          const isSpace = Math.random() > 0.8;
+          lines.push(
+              <div 
+                  key={i} 
+                  className={`barcode-line ${thickness} ${isSpace ? 'space' : ''}`}
+                  style={{ height: `${Math.random() * 30 + 70}%` }}
+              ></div>
+          );
+      }
+      return (
+          <div className="barcode-container">
+              <div className="barcode">
+                  {lines}
+              </div>
+              <div className="barcode-text">{sampleCode}</div>
+          </div>
+      );
+  };
       
   return (
     <div className="confirm-dialog-overlay">
@@ -163,16 +163,15 @@ const ScanDialog = ({ message, onConfirm, onCancel }) => {
               <p><strong>Quantity:</strong></p> */}
             </div>
           )}
-          {/* <div className={`admin-scanner-box ${scannerActive ? 'active' : ''}`}>
-              {
-
-              }
+          <div className="admin-scanner-box active">
+            {renderBarcodeLines()}
             <div className="admin-scanner-animation"></div>
-              <p>Target Barcode</p>
-              {scannedCode && (
-          <div className="admin-scanning-feedback">Reading: {scannedCode}</div>
-              )}
-          </div> */}
+            <p>Target Barcode</p>
+            {scannedUpcBuffer && (
+              <div className="admin-scanning-feedback">Reading: {scannedUpcBuffer}</div>
+            )}
+          </div>
+
           {!product && !error && (
             <div className="admin-scanner-placeholder">
               <p>Scan an item to get started!</p>
@@ -187,7 +186,14 @@ const ScanDialog = ({ message, onConfirm, onCancel }) => {
           {/* {renderBarcodeLines()} */}
         </div>
         <div className="dialog-actions">
-          <button onClick={onConfirm} className="confirm-btn">Save</button>
+        <button /* Disable Save button unless a product was scanned */
+        /* Update the button label dynamically based on whether a product was found */
+          onClick={onConfirm} 
+          className="confirm-btn" 
+          disabled={!product}
+        >
+          Save
+        </button>
           <button onClick={onCancel} className="cancel-btn">Cancel</button>
         </div>
       </div>
