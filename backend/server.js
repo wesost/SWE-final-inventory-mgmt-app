@@ -364,7 +364,7 @@ function insertItemToDB (item, res) {
 
 async function logTransaction(ItemID, type, quantity =1){
   const query = util.promisify(db.query).bind(db);
-  const sql = 'INSERT INTO transactions (item_id, type, quantity) VALUES (?, ?, ?)';
+  const sql = 'INSERT INTO transactions (item_id, transaction_type, quantity) VALUES (?, ?, ?)';
   try {
     await query(sql, [ItemID, type, quantity]);
     console.log(`Transaction logged: ${type} ${quantity} of item ID ${ItemID}`);
