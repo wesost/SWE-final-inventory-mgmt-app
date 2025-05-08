@@ -217,7 +217,7 @@ async function incrementItemQuantity(upc, res) { // res
       const [product] = await query(resSql, [upc]); // get rows from table for product
       
       await logTransaction(product.item_id, 'IN', 1); // log transaction to db
-      
+
       res.json({ // returns title and category to frontend
         message: 'Incremented item, sending item data to frontend', 
         title: product.name || 'no title',
@@ -232,6 +232,40 @@ async function incrementItemQuantity(upc, res) { // res
     }
   } catch (error) {
       console.error(`Database error while incrementing quantity for barcode ${upc}:`, error);
+      throw error; // re throw so calling function knows something went wrong
+  }
+}
+
+async function decrementItemQuantity(upc, res) { // res
+  if (!upc){
+    throw new Error("No upc passed to decrement function");
+  }
+  const query = util.promisify(db.query).bind(db);
+  const sql = 'UPDATE items SET quantity = quantity - 1 WHERE barcode = ?';
+  const resSql = 'SELECT * FROM items WHERE barcode = ?';
+  console.log(`Attempting to decrement count of item with upc: ${upc}`);
+  try{
+    const results = await query(sql, [upc]);
+    if (results && results.affectedRows > 0){
+      console.log(`Successfully decremented quantity for upc ${upc}`);
+      const [product] = await query(resSql, [upc]); // get rows from table for product
+      
+      await logTransaction(product.item_id, 'OUT', 1); // log transaction to db
+
+      res.json({ // returns title and category to frontend
+        message: 'Decremented item, sending item data to frontend', 
+        title: product.name || 'no title',
+        category: product.category || 'no category',
+      });
+      // return product;
+      // return true;
+    }
+    else{
+      console.log(`Item with upc: ${upc} not found, quantity not decremented...this should not happen`);
+      // return false;
+    }
+  } catch (error) {
+      console.error(`Database error while decrementing quantity for barcode ${upc}:`, error);
       throw error; // re throw so calling function knows something went wrong
   }
 }
