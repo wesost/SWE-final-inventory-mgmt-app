@@ -1,16 +1,12 @@
 .LandingPage {
-  position: fixed;
-  height: auto;
-  width: auto;
-  top: 10%;
-  left: 0;
-  right: 0;
-  bottom: 5%;
-  z-index: 1;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    min-height: 100vh;
+    padding-top: 10vh;
+    padding-bottom: 5vh;
+    box-sizing: border-box;
 }
   
 .main-content {
