@@ -96,24 +96,44 @@ const AdminDashboard = () => {
     setShowConfirm(true);
   };
   
-  //Confirm deletion of item
-  const confirmDelete = () => {
+  const confirmDelete = (quantityToDelete) => {
     if (!itemToDelete) {
       showToast("No item selected", false);
       return;
     }
-    
-    axios.delete(`http://localhost:5000/api/items/${itemToDelete.item_id}`)
-    .then(() => {
-        showToast("Item Removed");
-        fetchItems();
-        setItemToDelete(null);
-        setShowConfirm(false);
+
+    if (quantityToDelete >= itemToDelete.quantity) {
+      // Delete the whole item if the quantity to delete is equal or more
+      axios.delete(`http://localhost:5000/api/items/${itemToDelete.item_id}`)
+        .then(() => {
+          showToast("Item Removed");
+          fetchItems();
+          setItemToDelete(null);
+          setShowConfirm(false);
+        })
+        .catch(error => {
+          console.error("Error deleting item:", error);
+          showToast("Delete failed. Please try again.", false);
+        });
+    } else {
+      // Otherwise, update the item's quantity
+      const updatedQuantity = itemToDelete.quantity - quantityToDelete;
+
+      axios.put(`http://localhost:5000/api/items/${itemToDelete.item_id}`, {
+        ...itemToDelete,
+        quantity: updatedQuantity
       })
-      .catch(error => {
-        console.error("Error deleting item:", error);
-        showToast("Delete failed. Please try again.", false);
-      });
+        .then(() => {
+          showToast(`Removed ${quantityToDelete} unit(s)`);
+          fetchItems();
+          setItemToDelete(null);
+          setShowConfirm(false);
+        })
+        .catch(error => {
+          console.error("Error updating item quantity:", error);
+          showToast("Update failed. Please try again.", false);
+        });
+    }
   };
 
   return (
@@ -219,9 +239,9 @@ const AdminDashboard = () => {
         
         {showConfirm && (
           <ConfirmDialog
-          item={itemToDelete}
+            item={itemToDelete}
             message="Are you sure you want to delete this item?"
-            onConfirm={confirmDelete}
+            onConfirm={(quantity) => confirmDelete(quantity)}         // Pass selected quantity
             onCancel={() => {
               setShowConfirm(false);
               setItemToDelete(null);
