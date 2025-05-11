@@ -26,7 +26,7 @@
 }
 
 .landing-title {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 600;
   color: #ffffff;
   margin-bottom: 10px;
@@ -34,7 +34,7 @@
 
 .landing-subtitle {
   color: #67BAAF;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 500;
   margin-bottom: 30px;
 }
@@ -55,6 +55,7 @@
   align-items: center;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.05);
+  font-size: 1.125rem;
 }
 
 .scanner-box p {
@@ -97,7 +98,7 @@
   color: white;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
