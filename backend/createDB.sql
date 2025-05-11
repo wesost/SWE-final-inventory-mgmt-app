@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `nutrition_center` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `nutrition_center`;
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: localhost    Database: nutrition_inventory
+-- Host: localhost    Database: nutrition_center
 -- ------------------------------------------------------
--- Server version	8.1.0
+-- Server version	8.0.39
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,8 +20,6 @@
 --
 -- Table structure for table `items`
 --
-CREATE DATABASE IF NOT EXISTS `nutrition_center`;
-USE nutrition_center;
 
 DROP TABLE IF EXISTS `items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -27,13 +27,13 @@ DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `item_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `barcode` varchar(50) NOT NULL UNIQUE,
+  `barcode` varchar(50) NOT NULL,
   `category` varchar(100) DEFAULT NULL,
   `net_weight` decimal(10,2) DEFAULT NULL,
   `quantity` int DEFAULT '0',
   `location_purchased` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`barcode`),
-  UNIQUE KEY `barcode` (`barcode`)
+  UNIQUE KEY `item_id_unique` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -85,4 +85,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-13  9:56:36
+-- Dump completed on 2025-05-11 13:47:39
