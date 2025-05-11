@@ -5,6 +5,7 @@
     width: 100%;
     padding-top: 10vh;
     padding-bottom: calc(5vh + 60px); /* extra space for footer */
+    background-color: lightgray;
 }
 
 
