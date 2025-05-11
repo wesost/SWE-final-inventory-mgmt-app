@@ -1,14 +1,12 @@
 .admin-login-container {
-    position: fixed;
-    top: 10%;
-    left: 0;
-    right: 0;
-    bottom: 5%;
-    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;   
+    color: white;
+    min-height: 100vh;
+    padding-top: 10vh;
+    padding-bottom: 5vh;
+    box-sizing: border-box;
 }
 
 .admin-login-container::before {

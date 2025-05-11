@@ -11,3 +11,25 @@ html {
   width: 100%;
 }
 
+html, body {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .admin-dashboard, .admin-login-container, .LandingPage {
+    padding: 5vh 2vw;
+    flex-direction: column;
+  }
+
+  .add-item, .adminOptions {
+    width: 90%;
+  }
+
+  .container, .landing-container {
+    width: 90%;
+    height: auto;
+  }
+}
+
