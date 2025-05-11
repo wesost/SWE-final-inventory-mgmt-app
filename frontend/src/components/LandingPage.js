@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 //import { Link } from "react-router-dom"; 
 import '../styles/LandingPage.css';
-import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const LandingPage = () => {
 
 //function LandingPage() {
-
     // state for product info and errors - interacting with backend/apis
     const [product, setProduct] = useState(null);
     const [error, setError] = useState(null);

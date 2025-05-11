@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AdminPage.css';
-import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const AdminLogin = () => {
   // For testing, set the values in the form to admin credentials.

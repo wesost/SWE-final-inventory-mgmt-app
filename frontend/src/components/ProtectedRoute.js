@@ -1,34 +1,33 @@
-// This component will direct the user to the appropriate page if previously
-// Otherwise, redirect to the login page
+// This component will direct the user to the appropriate page if authenticated,
+// otherwise redirect to the login page
 
 import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
 const ProtectedRoute = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);  //Tracks whether the user is authenticated
+  const [isLoading, setIsLoading] = useState(true);              //Tracks whether the authentication check is still in progress
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = async () => {                                   //Async function to check if the user is authenticated
       try {
-        const response = await axios.get('/api/auth/verify', {
-          withCredentials: true
+        const response = await axios.get('/api/auth/verify', {        //Send a request to the backend to verify authentication
+          withCredentials: true                                       //Send cookies with the request (for session auth)
         });
-        setIsAuthenticated(response.data.authenticated);
+        setIsAuthenticated(response.data.authenticated);              //Set authentication status based on backend response
       } catch (err) {
-        setIsAuthenticated(false);
+        setIsAuthenticated(false);                                    //If the request fails (e.g., not authenticated), assume false
       } finally {
-        setIsLoading(false);
+        setIsLoading(false);                                          //Mark the loading process as complete
       }
     };
-
-    checkAuth();
+    checkAuth();                                                      //Run the authentication check on component mount
   }, []);
 
+  //While authentication status is being determined, show a loading state
   if (isLoading) {
-    // You could render a loading spinner here
-    return <div>Loading...</div>;
+    return <div>Loading...</div>;    //You can replace this with a loading spinner or animation if preferred
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
