@@ -6,8 +6,11 @@ import ScanDialog from "./AdminDashboardScanDialog";
 import '../styles/AdminDashboard.css';
 
 const AdminDashboard = () => {
+  //State to control UI components
   const [showEditForm, setShowEditForm] = useState(false);
   const [showScanDialog, setShowScanDialog] = useState(false);
+
+  //Data state
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({
@@ -18,19 +21,23 @@ const AdminDashboard = () => {
     expirationDate: ""
   });
 
+  //Deletion confirmation state
   const [showConfirm, setShowConfirm] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
+  //Fetch items when the component mounts
   useEffect(() => {
     fetchItems();
   }, []);
 
+  //Fetch all inventory items from backend
   const fetchItems = () => {
     axios.get("http://localhost:5000/api/items")
       .then(response => setItems(response.data))
       .catch(error => console.error("Error fetching items:", error));
   };
 
+  //Display temporary notification message
   const showToast = (message, isSuccess = true) => {
     const notif = document.getElementById("dashBoardNotification");
     if (notif) {
@@ -43,15 +50,17 @@ const AdminDashboard = () => {
     }
   };
 
+  //Handle changes in the "Add Item" form
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //Save edited item to backend
   const handleSaveEdit = (updatedItem) => {
     axios.put(`http://localhost:5000/api/items/${updatedItem.item_id}`, updatedItem)
       .then(() => {
         showToast("Item Updated");
-        fetchItems();
+        fetchItems(); // Refresh list
         setShowEditForm(false);
       })
       .catch((error) => {
@@ -60,9 +69,9 @@ const AdminDashboard = () => {
       })
   }
 
+  //Handle form submission to add a new item
   const handleSubmit = (e) => {
     e.preventDefault();
-
     axios.post("http://localhost:5000/api/items", {
       name: formData.itemName,
       category: formData.category,
@@ -72,7 +81,7 @@ const AdminDashboard = () => {
     })
     .then(() => {
       showToast("Item added");
-      fetchItems();
+      fetchItems(); //Refresh item list
       setFormData({ itemName: "", category: "", quantity: "", weight: "", expirationDate: "" });
     })
     .catch(error => {
@@ -81,28 +90,50 @@ const AdminDashboard = () => {
     });
   };
 
-  const handleDeleteClick = (id) => {
-    setItemToDelete(id);
+  //Open confirmation dialog for deletion
+  const handleDeleteClick = (item) => {
+    setItemToDelete(item);
     setShowConfirm(true);
   };
   
-  const confirmDelete = () => {
+  const confirmDelete = (quantityToDelete) => {
     if (!itemToDelete) {
       showToast("No item selected", false);
       return;
     }
-    
-    axios.delete(`http://localhost:5000/api/items/${itemToDelete.item_id}`)
-    .then(() => {
-        showToast("Item Removed");
-        fetchItems();
-        setItemToDelete(null);
-        setShowConfirm(false);
+
+    if (quantityToDelete >= itemToDelete.quantity) {
+      // Delete the whole item if the quantity to delete is equal or more
+      axios.delete(`http://localhost:5000/api/items/${itemToDelete.item_id}`)
+        .then(() => {
+          showToast("Item Removed");
+          fetchItems();
+          setItemToDelete(null);
+          setShowConfirm(false);
+        })
+        .catch(error => {
+          console.error("Error deleting item:", error);
+          showToast("Delete failed. Please try again.", false);
+        });
+    } else {
+      // Otherwise, update the item's quantity
+      const updatedQuantity = itemToDelete.quantity - quantityToDelete;
+
+      axios.put(`http://localhost:5000/api/items/${itemToDelete.item_id}`, {
+        ...itemToDelete,
+        quantity: updatedQuantity
       })
-      .catch(error => {
-        console.error("Error deleting item:", error);
-        showToast("Delete failed. Please try again.", false);
-      });
+        .then(() => {
+          showToast(`Removed ${quantityToDelete} unit(s)`);
+          fetchItems();
+          setItemToDelete(null);
+          setShowConfirm(false);
+        })
+        .catch(error => {
+          console.error("Error updating item quantity:", error);
+          showToast("Update failed. Please try again.", false);
+        });
+    }
   };
 
   return (
@@ -111,73 +142,66 @@ const AdminDashboard = () => {
         <h2 id="pageTitle">Inventory Dashboard</h2>
         <hr id="titleUnderline" />
         <div id="dashBoardNotification"></div>
+
+        {/* Item List Table */}
         <div id="tableWrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Item Name</th>
-              <th>Category</th>
-              <th>Quantity</th>
-              <th>Weight (kg)</th>
-              <th>Expiration Date</th>
-              <th id="actionMenu">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.length > 0 ? (
-              items.map((item) => (
-                <tr key={item.item_id}>
-                  <td>{item.name}</td>
-                  <td>{item.category}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.net_weight}</td>
-                  <td>{item.expiration_date || "N/A"}</td>
-                  <td className="actionTab">
-                    <button
-                      className="editItem"
-                      onClick={() => {
-                        setSelectedItem(item);
-                        setShowEditForm(true);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button className="removeItem" onClick={() => handleDeleteClick(item)}>Remove</button>
-                  </td>
-                </tr>
-              ))
-            ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Weight (kg)</th>
+                <th>Expiration Date</th>
+                <th id="actionMenu">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.length > 0 ? (
+                items.map((item) => (
+                  <tr key={item.item_id}>
+                    <td>{item.name}</td>
+                    <td>{item.category}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.net_weight}</td>
+                    <td>{item.expiration_date || "N/A"}</td>
+                    <td className="actionTab">
+                      <button
+                        className="editItem"
+                        onClick={() => {
+                          setSelectedItem(item);
+                          setShowEditForm(true);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button className="removeItem" onClick={() => handleDeleteClick(item)}>Remove</button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
                 <tr>
                   <td colSpan="5">No items available</td>
                   <td className="actionTab">
-                    <button
-                      className="editItem disabled"
-                      disabled
-                      onClick={() => showToast("No Item to Edit", false)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="removeItem disabled"
-                      onClick={() => showToast("No item to Remove", false)}
-                      disabled
-                    >
-                      Remove
-                    </button>
+                    <button className="editItem disabled" disabled onClick={() => showToast("No Item to Edit", false)}>Edit</button>
+                    <button className="removeItem disabled" disabled onClick={() => showToast("No item to Remove", false)}>Remove</button>
                   </td>
                 </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
         </div>
-        {showEditForm && (
-            <EditItemForm
-              item={selectedItem}
-              onClose={() => setShowEditForm(false)}
-              onSave={handleSaveEdit}
-            />
-          )}
 
+        {/* Edit Item Form Dialog */}
+        {showEditForm && (
+          <EditItemForm
+            item={selectedItem}
+            onClose={() => setShowEditForm(false)}
+            onSave={handleSaveEdit}
+          />
+        )}
+
+        {/* Admin Control Panel */}
         <div className="adminActions">
         <section className="add-item">
           <h3>Add New Item</h3>
@@ -215,9 +239,9 @@ const AdminDashboard = () => {
         
         {showConfirm && (
           <ConfirmDialog
-          item={itemToDelete}
+            item={itemToDelete}
             message="Are you sure you want to delete this item?"
-            onConfirm={confirmDelete}
+            onConfirm={(quantity) => confirmDelete(quantity)}         // Pass selected quantity
             onCancel={() => {
               setShowConfirm(false);
               setItemToDelete(null);

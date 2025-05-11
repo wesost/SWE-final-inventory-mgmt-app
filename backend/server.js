@@ -241,28 +241,24 @@ async function decrementItemQuantity(upc, res) { // res
     throw new Error("No upc passed to decrement function");
   }
   const query = util.promisify(db.query).bind(db);
-  const sql = 'UPDATE items SET quantity = quantity - 1 WHERE barcode = ?';
+  const sql = 'UPDATE items SET quantity = quantity - 1 WHERE barcode = ? AND quantity > 0';
   const resSql = 'SELECT * FROM items WHERE barcode = ?';
   console.log(`Attempting to decrement count of item with upc: ${upc}`);
   try{
     const results = await query(sql, [upc]);
     if (results && results.affectedRows > 0){
       console.log(`Successfully decremented quantity for upc ${upc}`);
-      const [product] = await query(resSql, [upc]); // get rows from table for product
-      
-      await logTransaction(product.item_id, 'OUT', 1); // log transaction to db
+      const [product] = await query(resSql, [upc]);
+      await logTransaction(product.item_id, 'OUT', 1);
 
-      res.json({ // returns title and category to frontend
-        message: 'Decremented item, sending item data to frontend', 
+      res.json({
+        message: 'Decremented item, sending item data to frontend',
         title: product.name || 'no title',
         category: product.category || 'no category',
       });
-      // return product;
-      // return true;
-    }
-    else{
-      console.log(`Item with upc: ${upc} not found, quantity not decremented...this should not happen`);
-      // return false;
+    } else {
+      console.log(`Item with upc: ${upc} not decremented — quantity is likely already 0`);
+      res.status(400).json({ message: 'Item cannot be decremented. Quantity already at 0.' });
     }
   } catch (error) {
       console.error(`Database error while decrementing quantity for barcode ${upc}:`, error);

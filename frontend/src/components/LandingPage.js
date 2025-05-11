@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 //import { Link } from "react-router-dom"; 
 import '../styles/LandingPage.css';
-import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const LandingPage = () => {
 
 //function LandingPage() {
-
     // state for product info and errors - interacting with backend/apis
     const [product, setProduct] = useState(null);
     const [error, setError] = useState(null);
@@ -146,12 +144,8 @@ const LandingPage = () => {
             {/* {error && <p style={{ color: 'blue' }}>Error: {error}</p>} */}
 
                 <div className="landing-container">
-                    {/* You can add the logo here if needed */}
-                    <div className="logo">
-                        <img src={whitworthLogo} alt="Whitworth Logo" />
-                    </div>
-                    <h1 className="landing-title">Welcome to Whitworth University Nutrition Center</h1>
-                    <h2 className="landing-subtitle">Please Scan Items Barcodes</h2>
+                    <h1 className="landing-title">Whitworth University Nutrition Center</h1>
+                    <h2 className="landing-subtitle">Please Scan Item Barcodes</h2>
                     {
                     /* display product info with conditional rendering
                     only shows this part of the website if a product has been scanned 
@@ -186,7 +180,7 @@ const LandingPage = () => {
                         
                         <div className="scanner-box">
                             <div className="scanner-animation"></div>
-                            <p>Position barcode in scanning area</p>
+                            <p>|||||||||||||||||||||||||||||||||||||||||||||||</p>
                         </div>
                     )}
                     {/* no product and an error - display error message */}

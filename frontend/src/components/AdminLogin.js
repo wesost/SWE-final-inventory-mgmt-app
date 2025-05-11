@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AdminPage.css';
-import whitworthLogo from '../assets/whitworth-logo.png'; // Import the logo directly
 
 const AdminLogin = () => {
   // For testing, set the values in the form to admin credentials.
@@ -45,15 +44,8 @@ const AdminLogin = () => {
   return (
     <div className="admin-login-container">
       <div className="container">
-        <div className="logo">
-          <img 
-            src={whitworthLogo}  // This needs fixing still so that it will display on the front page 
-            alt="Whitworth University Logo" 
-          />
-        </div>
-        
+
         <h1>Admin Dashboard</h1>
-        <div className="header-subtitle">Secure Administrator Access</div>
 
         {error && <div className="error-message">{error}</div>}
 

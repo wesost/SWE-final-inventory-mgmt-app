@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "../styles/AdminDashboardScanDialog.css";
 
+//ScanDialog Component for capturing barcode input through keyboard simulation
 const ScanDialog = ({ message, onConfirm, onCancel }) => {
 
   // state for product info and errors - interacting with backend/apis
@@ -122,30 +123,36 @@ const ScanDialog = ({ message, onConfirm, onCancel }) => {
       }, [scannedUpcBuffer, lookupUpc]); // Rerun effect if buffer or lookup function changes
       // (buffer and lookup function are )
 
+  // Function to render simulated barcode lines for UI effect
   const renderBarcodeLines = () => {
-      const lines = [];
-      const sampleCode = "";
-      for (let i = 0; i < 40; i++) {
-          const thickness = Math.random() > 0.7 ? 'thick' : (Math.random() > 0.5 ? 'thin' : '');
-          const isSpace = Math.random() > 0.8;
-          lines.push(
-              <div 
-                  key={i} 
-                  className={`barcode-line ${thickness} ${isSpace ? 'space' : ''}`}
-                  style={{ height: `${Math.random() * 30 + 70}%` }}
-              ></div>
-          );
-      }
-      return (
-          <div className="barcode-container">
-              <div className="barcode">
-                  {lines}
-              </div>
-              <div className="barcode-text">{sampleCode}</div>
-          </div>
+    const lines = [];
+    const sampleCode = ""; // Can be updated to show a fixed barcode below the graphic
+
+    // Generate 40 vertical lines with random height and thickness
+    for (let i = 0; i < 40; i++) {
+      const thickness = Math.random() > 0.7 ? 'thick' : (Math.random() > 0.5 ? 'thin' : '');
+      const isSpace = Math.random() > 0.8;
+
+      lines.push(
+        <div 
+          key={i} 
+          className={`barcode-line ${thickness} ${isSpace ? 'space' : ''}`}
+          style={{ height: `${Math.random() * 30 + 70}%` }}
+        ></div>
       );
+    }
+
+    return (
+      <div className="barcode-container">
+        <div className="barcode">
+          {lines}
+        </div>
+        <div className="barcode-text">{sampleCode}</div>
+      </div>
+    );
   };
-      
+
+  // Main render of the ScanDialog UI
   return (
     <div className="confirm-dialog-overlay">
       <div className="confirm-dialog-container">
