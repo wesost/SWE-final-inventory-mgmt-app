@@ -1,6 +1,6 @@
 # Documentation Overview
 
-Modified: 4/3/2025
+Modified: 5/11/2025
 
 ## About
 
@@ -11,6 +11,12 @@ The purpose of this document is to provide a brief but clear overview of the ent
 When creating a significant new piece of documentation, consider adding a reference to the new document in this file [(see existing references below)](#references) Files added to this folder should be appropriately named, and if adding many related files, a subfolder could be helpful.
 
 ## References:
+
+### Future Maintenance:
+
+[Managing User Credentials](../documentation/MANAGING-USER-CREDENTIALS.md)
+
+### Developer Notes:
 
 [Git Procedures](../README.md/#git-procedures) -- Procedures for contributing new changes
 
