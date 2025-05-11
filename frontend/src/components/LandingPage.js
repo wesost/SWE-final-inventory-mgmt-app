@@ -126,7 +126,18 @@ const LandingPage = () => {
     }, [scannedUpcBuffer, lookupUpc]); // Rerun effect if buffer or lookup function changes
     // (buffer and lookup function are )
 
+    // set/clear a timer when new items are scanned, so that 
+    // the displayed data will clear and the page will go back to 
+    // showing the scanner animation after 20seconds
+    useEffect(() => {
+        if (!product) return; // no timeout needed if no current product
 
+        const timeoutID = setTimeout(() => {
+            setProduct(null); // clear product after 20sec
+
+        }, 20000); // 20seconds
+        return () => clearTimeout(timeoutID); // clear timeout if product changes before 20sec
+    }, [product]); // product is this effect's dependency, run when product state changes
 
 
     return (
