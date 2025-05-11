@@ -27,12 +27,12 @@ DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `item_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `barcode` varchar(50) DEFAULT NULL,
+  `barcode` varchar(50) NOT NULL UNIQUE,
   `category` varchar(100) DEFAULT NULL,
   `net_weight` decimal(10,2) DEFAULT NULL,
   `quantity` int DEFAULT '0',
   `location_purchased` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`item_id`),
+  PRIMARY KEY (`barcode`),
   UNIQUE KEY `barcode` (`barcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

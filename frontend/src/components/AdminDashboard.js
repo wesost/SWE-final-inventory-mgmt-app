@@ -183,55 +183,51 @@ const AdminDashboard = () => {
 
         {/* Admin Control Panel */}
         <div className="adminActions">
-
-          {/* Add Item Form */}
-          <section className="add-item">
-            <h3>Add New Item</h3>
-            <hr />
-            <form onSubmit={handleSubmit}>
-              <label><input className="addFormAttribute" type="text" name="itemName" placeholder="Name" value={formData.itemName} onChange={handleChange} required /></label>
-              <label><input className="addFormAttribute" type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
-              <label><input className="addFormAttribute" type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} required /></label>
-              <label><input className="addFormAttribute" type="number" step="0.1" name="weight" placeholder="Weight(kg)" value={formData.weight} onChange={handleChange} required /></label>
-              <label><input className="addFormAttribute" type="date" name="expirationDate" placeholder="Expiration Date" value={formData.expirationDate} onChange={handleChange} required /></label>
-              <div id="addFormButtons">
-                <button type="submit" id="manualAdd">Add Item</button>
-                <button type="button" id="scanAdd" onClick={() => setShowScanDialog(true)}>Scan to Add</button>
-              </div>
-            </form>
-
-            {/* Scan Dialog for Adding Item */}
-            {showScanDialog && (
-              <ScanDialog
-                onConfirm={() => setShowScanDialog(false)}
-                onCancel={() => setShowScanDialog(false)}
-              />
-            )}
-          </section>
-
-          {/* Additional Options */}
-          <div className="adminOptions">
-            <h3>Options</h3>
-            <hr />
-            <div id="extraOptions">
-              <button type="submit" className="extraOptionButton" id="manualAdd">Analytics</button>
-              <button type="submit" className="extraOptionButton" id="manualAdd">Button</button>
-              <button type="submit" className="extraOptionButton" id="manualAdd">logout</button>
+        <section className="add-item">
+          <h3>Add New Item</h3>
+          <hr />
+          <form onSubmit={handleSubmit}>
+            <label><input className="addFormAttribute" type="text" name="itemName" placeholder="Name" value={formData.itemName} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="number" step="0.1" name="weight" placeholder="Weight(kg)" value={formData.weight} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="date" name="expirationDate" placeholder="Expiration Date" value={formData.expirationDate} onChange={handleChange} required /></label>
+            <div id="addFormButtons">
+              <button type="submit" id="manualAdd">Add Item</button>
+              <button type="button" id="scanAdd" onClick={() => setShowScanDialog(true)}>Scan to Add</button>
             </div>
-          </div>
-
-          {/* Delete Confirmation Dialog */}
-          {showConfirm && (
-            <ConfirmDialog
-              item={itemToDelete}
-              message="Are you sure you want to delete this item?"
-              onConfirm={confirmDelete}
-              onCancel={() => {
-                setShowConfirm(false);
-                setItemToDelete(null);
+          </form>
+          {showScanDialog && (
+            <ScanDialog
+              onConfirm={() => {
+                fetchItems(); // refresh item list
+                setShowScanDialog(false); 
               }}
+              onCancel={() => setShowScanDialog(false)}
             />
           )}
+        </section>
+        <div className="adminOptions">
+        <h3>Options</h3>
+        <hr />
+        <div id="extraOptions">
+          <button type="submit" className="extraOptionButton" id="manualAdd">Analytics</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">Button</button>
+          <button type="submit" className="extraOptionButton" id="manualAdd">logout</button>
+        </div>
+        </div>
+        
+        {showConfirm && (
+          <ConfirmDialog
+          item={itemToDelete}
+            message="Are you sure you want to delete this item?"
+            onConfirm={confirmDelete}
+            onCancel={() => {
+              setShowConfirm(false);
+              setItemToDelete(null);
+            }}
+          />
+        )}
         </div>
       </main>
     </div>

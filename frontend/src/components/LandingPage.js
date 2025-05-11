@@ -27,7 +27,7 @@ const LandingPage = () => {
             const response = await fetch('http://localhost:5000/api/upc-lookup', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json" },
-                body: JSON.stringify({ upc: upcToLookup }),
+                body: JSON.stringify({ upc: upcToLookup, mode: 'OUT' }),
             });
 
             //check if response status is failiure
