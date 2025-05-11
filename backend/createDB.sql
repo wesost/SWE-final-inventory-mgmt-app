@@ -66,13 +66,13 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `password_hash` varchar(255) NOT NULL,
-  `role` enum('admin','staff') NOT NULL,
+  `role` enum('admin','staff') NOT NULL DEFAULT 'staff',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
