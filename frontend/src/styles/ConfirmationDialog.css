@@ -33,3 +33,15 @@ hr {
     margin-top: 2px;
     margin-bottom: 5px;
 }
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+
+@media (max-width: 768px) {
+  .edit-form-container, .confirm-dialog-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}

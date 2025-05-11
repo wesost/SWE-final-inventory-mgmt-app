@@ -25,8 +25,7 @@
 }
 
 h1 {
-    margin-top: 15px;
-    font-size: 32px;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #ffffff;
     margin-bottom: 10px;
@@ -35,7 +34,7 @@ h1 {
 .header-subtitle {
     margin-top: 15px;
     color: #67BAAF;
-    font-size: 22px;
+    font-size: 0.875rem;
     font-weight: 500;
     margin-bottom: 30px;
 }
@@ -49,7 +48,7 @@ h1 {
 label {
     display: block;
     margin-bottom: 6px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #C7B683;
     text-transform: capitalize;
 }
@@ -61,9 +60,10 @@ input {
     background-color: rgba(255, 255, 255, 0.03);
     border-radius: 6px;
     color: white;
-    font-size: 15px;
+    font-size: 0.9375rem;
     outline: none;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
 input:focus {
@@ -72,7 +72,7 @@ input:focus {
 
 .forgot-password {
     text-align: right;
-    font-size: 13px;
+    font-size: 0.8125rem;
     margin-top: 4px;
 }
 
@@ -92,11 +92,12 @@ button {
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     text-transform: capitalize;
+    max-width: 100%;
 }
 
 button:hover {
