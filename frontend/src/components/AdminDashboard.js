@@ -14,6 +14,7 @@ const AdminDashboard = () => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({
+    barcode: "",
     itemName: "",
     category: "",
     quantity: "",
@@ -73,6 +74,7 @@ const AdminDashboard = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post("http://localhost:5000/api/items", {
+      barcode: formData.barcode,
       name: formData.itemName,
       category: formData.category,
       quantity: formData.quantity,
@@ -82,7 +84,7 @@ const AdminDashboard = () => {
     .then(() => {
       showToast("Item added");
       fetchItems(); //Refresh item list
-      setFormData({ itemName: "", category: "", quantity: "", weight: "", expirationDate: "" });
+      setFormData({ barcode: "", itemName: "", category: "", quantity: "", weight: "", expirationDate: "" });
     })
     .catch(error => {
       console.error("Error adding item:", error);
@@ -207,6 +209,7 @@ const AdminDashboard = () => {
           <h3>Add New Item</h3>
           <hr />
           <form onSubmit={handleSubmit}>
+            <label><input className="addFormAttribute" type="text" name="barcode" placeholder="click here and scan to enter barcode" value={formData.barcode} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="text" name="itemName" placeholder="Name" value={formData.itemName} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} required /></label>
