@@ -126,11 +126,11 @@ app.get('/api/items', (req, res) => {
 
 // Add a new item to the inventory
 app.post('/api/items', (req, res) => {
-    const { name, category, quantity, net_weight, barcode, location_purchased } = req.body;
+    const { barcode, name, category, quantity, weight, location_purchased } = req.body;
 
     db.query(
-        'INSERT INTO items (name, category, quantity, net_weight, barcode, location_purchased) VALUES (?, ?, ?, ?, ?, ?)',
-        [name, category, quantity, net_weight, barcode, location_purchased],
+        'INSERT INTO items (barcode, name, category, quantity, net_weight, location_purchased) VALUES (?, ?, ?, ?, ?, ?)',
+        [barcode, name, category, quantity, weight, location_purchased],
         (err, results) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
@@ -166,19 +166,19 @@ app.put('/api/items/:id', (req, res) => {
   });
 });
 
-// Edit a selected item from the inventory
-app.put('/api/items/:id', (req, res) => {
-  const fields = Object.entries(req.body).filter(([_, v]) => v !== undefined);             //Convert the request body into an array of [key, value] filter out any fields where the value is undefined (e.g., missing input)
-  if (fields.length === 0) return res.status(400).json({ error: "No data to update." });   //If there are no valid fields to update
+// Edit a selected item from the inventory DUPE??
+// app.put('/api/items/:id', (req, res) => {
+//   const fields = Object.entries(req.body).filter(([_, v]) => v !== undefined);             //Convert the request body into an array of [key, value] filter out any fields where the value is undefined (e.g., missing input)
+//   if (fields.length === 0) return res.status(400).json({ error: "No data to update." });   //If there are no valid fields to update
 
-  const setClause = fields.map(([k]) => `${k} = ?`).join(', ');                            //Create the SQL SET clause "name = ?, quantity = ?, category = ?"
-  const values = fields.map(([_, v]) => v).concat(req.params.id);                          //Extract the values from the fields array and append the item ID
+//   const setClause = fields.map(([k]) => `${k} = ?`).join(', ');                            //Create the SQL SET clause "name = ?, quantity = ?, category = ?"
+//   const values = fields.map(([_, v]) => v).concat(req.params.id);                          //Extract the values from the fields array and append the item ID
 
-  db.query(`UPDATE items SET ${setClause} WHERE item_id = ?`, values, (err) => {           //Run the SQL query to update the item 
-    if (err) return res.status(500).json({ error: err.message });                          //If there's a DB error, return a 500 Internal Server
-    res.json({ message: "Item updated successfully" });                                    //If the query succeeds, send back a success message
-  });
-});
+//   db.query(`UPDATE items SET ${setClause} WHERE item_id = ?`, values, (err) => {           //Run the SQL query to update the item 
+//     if (err) return res.status(500).json({ error: err.message });                          //If there's a DB error, return a 500 Internal Server
+//     res.json({ message: "Item updated successfully" });                                    //If the query succeeds, send back a success message
+//   });
+// });
 
 // call this before trying to make an api call for every item scanned
 // takes upc returns bool
@@ -266,7 +266,7 @@ async function decrementItemQuantity(upc, res) { // res
   }
 }
 
-
+// only used for storing items from external api
 function insertItemToDB (item, res) {
   db.query(
     'INSERT INTO items (name, category, quantity, net_weight, barcode, location_purchased) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)',
