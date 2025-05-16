@@ -12,7 +12,7 @@ services:
       - DB_NAME=nutrition_center
       - SESSION_SECRET=supersecret
       - DEFAULT_ADMIN_USERNAME=admin
-      - DEFAULT_ADMIN_PASSWORD=admin123
+      - DEFAULT_ADMIN_PASSWORD=4Z*iu4YArB
       - DEFAULT_ADMIN_EMAIL=admin@example.com
     depends_on:
       - db

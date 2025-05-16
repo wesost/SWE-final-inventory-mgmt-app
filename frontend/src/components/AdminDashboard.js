@@ -209,11 +209,11 @@ const AdminDashboard = () => {
           <h3>Add New Item</h3>
           <hr />
           <form onSubmit={handleSubmit}>
-            <label><input className="addFormAttribute" type="text" name="barcode" placeholder="click here and scan to enter barcode" value={formData.barcode} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="text" name="barcode" placeholder="Click here and scan to enter barcode" value={formData.barcode} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="text" name="itemName" placeholder="Name" value={formData.itemName} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="number" name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} required /></label>
-            <label><input className="addFormAttribute" type="number" step="0.1" name="weight" placeholder="Weight(kg)" value={formData.weight} onChange={handleChange} required /></label>
+            <label><input className="addFormAttribute" type="number" step="0.1" name="weight" placeholder="Weight (kg)" value={formData.weight} onChange={handleChange} required /></label>
             <label><input className="addFormAttribute" type="date" name="expirationDate" placeholder="Expiration Date" value={formData.expirationDate} onChange={handleChange} required /></label>
             <div id="addFormButtons">
               <button type="submit" id="manualAdd">Add Item</button>
@@ -235,7 +235,6 @@ const AdminDashboard = () => {
         <hr />
         <div id="extraOptions">
           <button type="submit" className="extraOptionButton" id="manualAdd">Analytics</button>
-          <button type="submit" className="extraOptionButton" id="manualAdd">Button</button>
           <button type="submit" className="extraOptionButton" id="manualAdd">logout</button>
         </div>
         </div>
