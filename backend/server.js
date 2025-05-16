@@ -202,6 +202,9 @@ async function checkIfItemEntryPresentInDB (upc) {
   }
 }
 
+// Increment item quantity
+// this is called when an item is scanned in
+// it checks if the item exists in the database
 async function incrementItemQuantity(upc, res) { // res 
   if (!upc){
     throw new Error("No upc passed to increment function");
@@ -236,6 +239,9 @@ async function incrementItemQuantity(upc, res) { // res
   }
 }
 
+// decrement item quantity
+// this is called when an item is scanned out
+// it checks if the item exists in the database
 async function decrementItemQuantity(upc, res) { // res
   if (!upc){
     throw new Error("No upc passed to decrement function");
@@ -267,6 +273,7 @@ async function decrementItemQuantity(upc, res) { // res
 }
 
 // only used for storing items from external api
+// this is called when an item is scanned in
 function insertItemToDB (item, res) {
   db.query(
     'INSERT INTO items (name, category, quantity, net_weight, barcode, location_purchased) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)',
@@ -358,6 +365,8 @@ function insertItemToDB (item, res) {
     }
   });  
 
+// Log transaction to the database
+// This function is called when an item is scanned in or out
 async function logTransaction(ItemID, type, quantity =1){
   const query = util.promisify(db.query).bind(db);
   const sql = 'INSERT INTO transactions (item_id, transaction_type, quantity) VALUES (?, ?, ?)';

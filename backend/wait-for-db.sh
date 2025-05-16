@@ -1,5 +1,7 @@
 #!/bin/sh
 # wait-for-db.sh
+# This script waits for a MySQL database to be available before executing a command.
+# It checks the availability of the database by attempting to connect to it on port 3306.
 
 set -e
 
