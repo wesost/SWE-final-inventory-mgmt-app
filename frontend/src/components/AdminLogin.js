@@ -7,7 +7,7 @@ const AdminLogin = () => {
   // For testing, set the values in the form to admin credentials.
   // Provides easy access to the dashboard
   const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [password, setPassword] = useState('4Z*iu4YArB');
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
